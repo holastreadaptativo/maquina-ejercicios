@@ -1,0 +1,7 @@
+.firebase/
+functions/node_modules/
+node_modules/
+.DS_Store
+public/dist/bundle.js
+public/dist/bundle.js.map
+firebase-debug.log

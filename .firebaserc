@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "maquina-prod",
+    "staging": "maquina-dev"
+  }
+}

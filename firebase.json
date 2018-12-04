@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [{
+      "source": "/api/timestamp",
+      "function": "app"
+    },{
+      "source": "/api/timestamp-cached",
+      "function": "app"
+    }]
+  }
+}

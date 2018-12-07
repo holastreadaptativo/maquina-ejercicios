@@ -1,12 +1,12 @@
 import React from 'react';
-import {
-    CssBaseline,
-    AppBar,
-    Toolbar,
-    Typography,
-    Modal,
-    Button
-} from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import createHistory from 'history/createBrowserHistory';
 import { Router, Route, Switch } from 'react-router-dom';
@@ -23,6 +23,7 @@ import { startShowHideMessage } from '../actions/appstate';
 
 import LeftDrawer from '../components/drawer/LeftDrawer'
 import IconsAppBar from '../components/navbaricons/Icons';
+
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 
@@ -48,6 +49,10 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
         minWidth: 0, // So the Typography noWrap works
+    },
+    menuButton: {
+        marginLeft: -12,
+        marginRight: 20,
     },
     messages: {
         position: 'absolute',
@@ -80,10 +85,17 @@ const styles = theme => ({
 class AppRouter extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showDrawer: false
+        }
     }
 
     handleHideMessage = () => {
         this.props.startShowHideMessage();
+    }
+
+    handleDrawer = () => {
+        this.setState((state) => ({ showDrawer: !state.showDrawer }));
     }
 
     render() {
@@ -95,13 +107,16 @@ class AppRouter extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="absolute" className={classes.appBar}>
                         <Toolbar>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.handleDrawer}>
+                                <MenuIcon />
+                            </IconButton>
                             <Typography variant="title" color="inherit" noWrap className={classes.grow}>
                                 Máquina de Ejercicios
                             </Typography>
                             { isAuthenticated && <IconsAppBar /> /* muestra iconos superior derecho*/} 
                         </Toolbar>
                     </AppBar>
-                    { isAuthenticated && <LeftDrawer /> /* muestra menu izquierdo */}
+                    { isAuthenticated && this.state.showDrawer && <LeftDrawer /> /* muestra menu izquierdo */}
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
                         <Switch>

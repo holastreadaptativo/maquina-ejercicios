@@ -2,12 +2,12 @@ import React from 'react';
 import { IgualPerimetroRender } from './editor/perimetro/DibujaIgualPerimetro';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { withStyles } from '@material-ui/core/styles';
-
-import { 
-    Grid,
-    Modal
-} from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Grid from '@material-ui/core/Grid';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import { startOpenCloseModal } from '../actions/appstate';
 
@@ -33,10 +33,17 @@ class Ejercicio extends React.Component {
     constructor(props) {
         super(props);
         this.iframe = React.createRef();
+        this.state = {
+            value: 2
+        }
     }
 
     handleCloseComponent = () => {
         this.props.startOpenCloseModal();
+    }
+
+    handleChange = (event, value) => {
+        this.setState({ value });
     }
 
     getVariablesYVersion = () => {
@@ -64,18 +71,63 @@ class Ejercicio extends React.Component {
         document.getElementById("container").appendChild(element);
     }
 
+    componentDidMount() {
+        this.handleIFrame();
+    }
+
+    componentDidUpdate() {
+        this.handleIFrame();
+    }
+
+    handleIFrame = () => {
+        switch(this.state.value) {
+            case 0:
+                this.iframe.current.width = 375;
+                this.iframe.current.height = 667;
+                break;
+            case 1:
+                this.iframe.current.width = 768;
+                this.iframe.current.height = 800;
+                break;
+            case 2:
+                this.iframe.current.width = 1200;
+                this.iframe.current.height = 630;
+                break;
+        }
+    }
+
     render() {
         const { eje, ver } = this.props.match.params;
         const { classes, appState } = this.props;
         const { variables, version } = this.getVariablesYVersion();
+        
         return (
-            <Grid container>
-                <Grid item lg={12}>
-                <h1>Ejercicio: {eje} version: {ver}</h1>
-                <div>
-                    <iframe ref={this.iframe} src="/dist/iframe.html"></iframe>
+            <Grid container spacing={8}>
+                <Grid item lg={4}>
+
+                </Grid>
+                <Grid item lg={4}>
+
+                </Grid>
+                <Grid item lg={4}>
+                    <Paper square>
+                        <Tabs
+                            value={this.state.value}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            onChange={this.handleChange}
+                            fullWidth
+                        >
+                            <Tab label="Mobile" />
+                            <Tab label="Tablet" />
+                            <Tab label="Desktop" />
+                        </Tabs>
+                    </Paper>
+                </Grid>
+                <Grid item lg={12} justify="center">
+                    <iframe className={classes.iframe} ref={this.iframe} src="/dist/iframe.html"></iframe>
                     <button onClick={this.handleHtml}>Envia html</button>
-                </div>
+                </Grid>
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -86,7 +138,6 @@ class Ejercicio extends React.Component {
                         { getComponent(appState.componentName, { eje, variables, version }) }
                     </div>
                 </Modal>
-                </Grid>
             </Grid>
         );
     }

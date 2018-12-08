@@ -5,20 +5,10 @@ import HomeIncon from '@material-ui/icons/Home';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import { Link } from 'react-router-dom';
 
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 
 import { startLogout } from '../../actions/auth'
-
-const styles = theme => ({
-  relative: {
-    position: 'relative'
-  },
-  right: {
-    right: 0
-  }
-});
 
 class IconsAppBar extends React.Component {
   constructor(props) {
@@ -30,7 +20,6 @@ class IconsAppBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <IconButton component={Link} to="/home" color="inherit" aria-label="Inicio" title="Inicio">
@@ -52,7 +41,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withStyles(styles),
   connect(undefined, mapDispatchToProps)
 )(IconsAppBar);
 

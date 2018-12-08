@@ -124,7 +124,7 @@ class Ejercicio extends React.Component {
                         </Tabs>
                     </Paper>
                 </Grid>
-                <Grid item lg={12} justify="center">
+                <Grid item lg={12}>
                     <iframe className={classes.iframe} ref={this.iframe} src="/dist/iframe.html"></iframe>
                     <button onClick={this.handleHtml}>Envia html</button>
                 </Grid>

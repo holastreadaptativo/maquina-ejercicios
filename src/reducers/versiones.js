@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 const versionesDefaultState = {};
 
 export default (state = versionesDefaultState, action) => {
@@ -6,6 +7,8 @@ export default (state = versionesDefaultState, action) => {
             return action.versiones;
         case 'UNSET_VERSIONES':
             return versionesDefaultState;
+        case 'DELETE_EJERCICIO':
+            return omit(state, action.id);
         default:
             return state;
     }

@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 const variablesDefaultState = {};
 
 export default (state = variablesDefaultState, action) => {
@@ -28,6 +29,8 @@ export default (state = variablesDefaultState, action) => {
                 ...state,
                 [action.idEjercicio]: state[action.idEjercicio].filter(({id}) => id !== action.idVariable)
             };
+        case 'DELETE_EJERCICIO':
+            return omit(state, action.id);
         default:
             return state;
     }

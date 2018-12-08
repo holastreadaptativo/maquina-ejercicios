@@ -2,11 +2,10 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
 
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import Edit from '@material-ui/icons/Edit';
 
 import { connect } from 'react-redux';
 import { withTheme } from '@material-ui/core';
@@ -14,40 +13,26 @@ import compose from 'recompose/compose';
 
 import { startOpenCloseModal } from '../../../actions/appstate';
 
-class Funciones extends React.Component {
+class Variables extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            open: false,
-            value: 0
-        };
     }
 
-    handleClick = () => {
-        this.setState((state) => ({ open: !state.open }));
-    }
-
-    handleOpenModalPerimetro = (event) => {
-        this.props.startOpenCloseModal('Igual Perimetro');
+    handleOpenModalVariables = (event) => {
+        this.props.startOpenCloseModal('Variables');
     }
 
     render() {
         const { theme } = this.props;
         return (
             <div dir={theme.direction}>
-                <List component="nav">
-                    <ListSubheader color="primary">Funciones</ListSubheader>
-                    <ListItem color="primary" button onClick={this.handleClick}>
-                        <ListItemText primary="Numeros y operaciones" />
-                        {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                <List component="div" disablePadding dense>
+                    <ListSubheader color="primary">Variables</ListSubheader>
+                    <ListItem color="primary" button onClick={ this.handleOpenModalVariables }>
+                        <ListItemText primary="Editar" />
+                        <Edit />
                     </ListItem>
-                    <Collapse in={this.state.open} timeout="auto">
-                        <List component="div" disablePadding dense>
-                            <ListItem button onClick={this.handleOpenModalPerimetro}>
-                                <ListItemText primary="Igual Perimetro" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
+                    <Divider />
                     <ListItem button >
                         <ListItemText color="primary" primary="Patrones y álgebra" />
                     </ListItem>
@@ -66,12 +51,15 @@ class Funciones extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    appState: state.appState
+});
+
 const mapDispatchToProps = (dispatch) => ({
     startOpenCloseModal: (component) => dispatch(startOpenCloseModal(component))
 });
 
 export default compose(
     withTheme(),
-    connect(undefined, mapDispatchToProps)
-)(Funciones);
-
+    connect(mapStateToProps, mapDispatchToProps)
+)(Variables);

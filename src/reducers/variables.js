@@ -3,6 +3,13 @@ const variablesDefaultState = {};
 
 export default (state = variablesDefaultState, action) => {
     switch(action.type) {
+        case 'ADD_EJERCICIO':
+            return {
+                ...state,
+                [action.ejercicio.id]: [ ]
+            };
+        case 'DELETE_EJERCICIO':
+            return omit(state, action.id);
         case 'SET_VARIABLES':
             return action.variables;
         case 'ADD_VARIABLE':
@@ -29,8 +36,6 @@ export default (state = variablesDefaultState, action) => {
                 ...state,
                 [action.idEjercicio]: state[action.idEjercicio].filter(({id}) => id !== action.idVariable)
             };
-        case 'DELETE_EJERCICIO':
-            return omit(state, action.id);
         default:
             return state;
     }

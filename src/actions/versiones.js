@@ -23,6 +23,16 @@ export const startSetVersiones = () => {
     };
 };
 
+export const generateVersions = (idEjercicio, numeroVersiones) => {
+    return (dispatch, getState) => {
+        try {
+            
+        } catch(error) {
+            dispatch(startShowHideMessage(error));
+        }
+    };
+};
+
 export const unsetVersiones = () => ({
     type: 'UNSET_VERSIONES'
 });

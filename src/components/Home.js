@@ -54,6 +54,10 @@ class Home extends React.Component {
         }
     }
 
+    handleCancel = (e) => {
+        this.setState(() => ({ accion: undefined }));
+    }
+
     render() {
         const { accion, id, descripcion } = this.state;
         const { ejercicios } = this.props;
@@ -115,7 +119,10 @@ class Home extends React.Component {
                             )}
                         </TableBody>
                     </Table>
-                    <Button color="primary" onClick={this.handleAdd}>Agregar</Button>
+                    {this.state.accion !== 'add' ?
+                        <Button color="primary" onClick={this.handleAdd}>Agregar</Button> :
+                        <Button color="primary" onClick={this.handleCancel}>Cancelar</Button>
+                    }
                 </Grid>
             </Grid>
         );

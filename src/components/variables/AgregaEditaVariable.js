@@ -12,6 +12,7 @@ import {
     withStyles
 } from '@material-ui/core';
 import _ from 'lodash';
+import { regexVariables } from '../../actions/funciones';
 
 const styles = theme => ({
     formControl: {
@@ -72,10 +73,12 @@ class AgregaEditaVariable extends React.Component {
     handleAdd = (e) => {
         const { nombre, tipo, valor, restriccion, vt } = this.state;
         try {
-            var obj = {};
-            obj[nombre] = vt;
-            var restriccionReemplazado = reemplazaVariablesEnTexto(restriccion, { ...obj, ...this.props.version });
-            eval(restriccionReemplazado);
+            if(restriccion) {
+                var obj = {};
+                obj[nombre] = vt;
+                var restriccionReemplazado = regexVariables(restriccion, { ...obj, ...this.props.version });
+                eval(restriccionReemplazado);
+            }
         } catch(e) {
             this.setState(() => ({ restriccionError: 'Restriccion mal ingresada' }));
             return;
@@ -83,14 +86,14 @@ class AgregaEditaVariable extends React.Component {
         switch(tipo) {
             case 'funcion':
                 try {
-                    eval(reemplazaVariablesEnTexto(valor, this.props.version));
+                    eval(regexVariables(valor, this.props.version));
                 } catch(e) {
                     this.setState(() => ({ valorError: 'Valor mal ingresado' }));
                 }   
                 break;
             case 'numero':
-            /*opciones soportadas:  arreglo => [0, 5, 8, 16, 48] || rango => 1...10 || constante => 10*/
-                var isArreglo =  String(valor).startsWith('[') && String(valor).endsWith(']') && String(valor).split(',').length > 0;
+            /*opciones soportadas:  arreglo => 0, 5, 8, 16, 48 || rango => 1...10 || constante => 10*/
+                var isArreglo =  String(valor).split(',').length > 0;
                 var isRango = String(valor).indexOf('...') > 0 && String(valor).split('...').length === 2;
                 var isConstante = !isNaN(Number(valor));
                 if(!(isArreglo || isRango || isConstante)) {
@@ -105,7 +108,12 @@ class AgregaEditaVariable extends React.Component {
             this.setState(() => ({ vtError: 'VT mal ingresada' }));
             return;
         }
-        const variable = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        let variable;
+        if(this.state.restriccion) {
+            variable = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        } else {
+            variable = _.pick(this.state, ['nombre', 'tipo', 'valor', 'vt']);
+        }
         this.props.handleStartAdd(variable);
     }
 
@@ -114,7 +122,7 @@ class AgregaEditaVariable extends React.Component {
         try {
             var obj = {};
             obj[nombre] = vt;
-            var restriccionReemplazado = reemplazaVariablesEnTexto(restriccion, { ...obj, ...this.props.version });
+            var restriccionReemplazado = regexVariables(restriccion, { ...obj, ...this.props.version });
             eval(restriccionReemplazado);
         } catch(e) {
             this.setState(() => ({ restriccionError: 'Restriccion mal ingresada' }));
@@ -123,7 +131,7 @@ class AgregaEditaVariable extends React.Component {
         switch(tipo) {
             case 'funcion':
                 try {
-                    eval(reemplazaVariablesEnTexto(valor, this.props.version));
+                    eval(regexVariables(valor, this.props.version));
                 } catch(e) {
                     this.setState(() => ({ valorError: 'Valor mal ingresado' }));
                 }   
@@ -145,7 +153,12 @@ class AgregaEditaVariable extends React.Component {
             this.setState(() => ({ vtError: 'VT mal ingresada' }));
             return;
         }
-        const updates = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        let updates;
+        if(this.state.restriccion) {
+            updates = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        } else {
+            updates = _.pick(this.state, ['nombre', 'tipo', 'valor', 'vt']);
+        }
         this.props.handleStartEdit(this.state.id, updates);
     }
 
@@ -223,13 +236,5 @@ class AgregaEditaVariable extends React.Component {
         );
     }
 }
-
-export const reemplazaVariablesEnTexto = (texto, version) => {
-    var result = texto.toString().replace(/(\$[a-z])/g, function(coincidencia) { //coincidencia ej: => '$a'
-        var valor = Object.keys(version).find(key => key === coincidencia[1]);
-        return version[valor];
-    });
-    return result;
-};
 
 export default withStyles(styles)(AgregaEditaVariable);

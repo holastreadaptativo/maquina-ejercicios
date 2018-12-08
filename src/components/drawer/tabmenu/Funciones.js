@@ -28,7 +28,8 @@ class Funciones extends React.Component {
     }
 
     handleOpenModalPerimetro = (event) => {
-        this.props.startOpenCloseModal('Igual Perimetro');
+        console.log('asi se puede abrir un modal desde aqui');
+        //this.props.startOpenCloseModal('Igual Perimetro');
     }
 
     render() {

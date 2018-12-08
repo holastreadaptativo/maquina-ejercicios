@@ -1,5 +1,4 @@
 import React from 'react';
-import { IgualPerimetroRender } from './editor/perimetro/DibujaIgualPerimetro';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -10,11 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 import { startOpenCloseModal } from '../actions/appstate';
-
-/* INICIO IMPORT DE COMPONENTES */
-import Variables from './variables/Variables';
-import EditaIgualPerimetro from './editor/perimetro/EditaIgualPerimetro';
-/* TERMINO IMPORT DE COMPONENTES */
+import { getComponent } from '../actions/funciones';
 
 const styles = theme => ({
     components: {
@@ -27,6 +22,14 @@ const styles = theme => ({
         boxShadow: theme.shadows[5],
         padding: 20
     },
+    contenedor: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    iframe: {
+        border: '2px solid black'
+    }
 });
 
 class Ejercicio extends React.Component {
@@ -62,15 +65,6 @@ class Ejercicio extends React.Component {
         return { variables, version };
     }
 
-    handleHtml = () => {
-        const { version } = this.getVariablesYVersion();
-        const document = this.iframe.current.contentDocument;
-        var element = document.createElement("div");
-        var props = { lado: 10, color: '#ff0000', alto: 'b', ancho: 'a', version };
-        IgualPerimetroRender(props, element);
-        document.getElementById("container").appendChild(element);
-    }
-
     componentDidMount() {
         this.handleIFrame();
     }
@@ -100,12 +94,8 @@ class Ejercicio extends React.Component {
         const { eje, ver } = this.props.match.params;
         const { classes, appState } = this.props;
         const { variables, version } = this.getVariablesYVersion();
-        
         return (
             <Grid container spacing={8}>
-                <Grid item lg={4}>
-
-                </Grid>
                 <Grid item lg={4}>
 
                 </Grid>
@@ -124,9 +114,13 @@ class Ejercicio extends React.Component {
                         </Tabs>
                     </Paper>
                 </Grid>
+                <Grid item lg={4}>
+
+                </Grid>
                 <Grid item lg={12}>
-                    <iframe className={classes.iframe} ref={this.iframe} src="/dist/iframe.html"></iframe>
-                    <button onClick={this.handleHtml}>Envia html</button>
+                    <div className={classes.contenedor}>
+                        <iframe className={classes.iframe} ref={this.iframe} src="/dist/iframe.html"></iframe>
+                    </div>
                 </Grid>
                 <Modal
                     aria-labelledby="simple-modal-title"
@@ -143,22 +137,12 @@ class Ejercicio extends React.Component {
     }
 }
 
-const getComponent = (componentName, props) => {
-    switch(componentName) {
-        case 'Variables':
-            return <Variables {...props} />
-        case 'Igual Perimetro':
-            return <EditaIgualPerimetro {...props} />
-        default:
-            return undefined;
-    }  
-};
-
 const mapDispatchToProps = (dispatch) => ({
     startOpenCloseModal: () => dispatch(startOpenCloseModal())
 });
 
 const mapStateToProps = (state) => ({
+    ejercicios: state.ejercicios,
     variables: state.variables,
     versiones: state.versiones,
     appState: state.appState,

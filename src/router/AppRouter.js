@@ -126,7 +126,8 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/cuentas" component={Cuentas} />
                             <Route component={NotFoundPage}/>
                         </Switch>
-                        <Modal
+                    </main>
+                    <Modal
                             aria-labelledby="simple-modal-title"
                             aria-describedby="simple-modal-description"
                             open={appState.messageIsShowed}
@@ -150,7 +151,6 @@ class AppRouter extends React.Component {
                                 </div>
                             </div>
                         </Modal>
-                    </main>
                 </div>
                 </React.Fragment>
             </Router>

@@ -11,10 +11,20 @@ import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
+import withStyles from '@material-ui/core/styles/withStyles';
+import compose from 'recompose/compose';
 
 import { startAddEjercicio, startDeleteEjercicio } from '../actions/ejercicios'
+
+const styles = theme => ({
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: '90px 30px 30px 30px',
+        minWidth: 0, // So the Typography noWrap works
+    },
+});
 
 class Home extends React.Component {
     constructor(props) {
@@ -60,25 +70,9 @@ class Home extends React.Component {
 
     render() {
         const { accion, id, descripcion } = this.state;
-        const { ejercicios } = this.props;
-        var lista;
-        if(ejercicios.length > 0) {
-            lista = ejercicios.map((item, index) => (
-                <TableRow key={index}>
-                    <TableCell><Link to={`/ejercicio/${item.id}/vt`}>{item.id}</Link></TableCell>
-                    <TableCell>{item.descripcion}</TableCell>
-                    <TableCell><Button onClick={() => this.handleStartDelete(item.id)}>Eliminar</Button></TableCell>
-                </TableRow>
-            ));
-        } else {
-            lista = (
-                <TableRow>
-                    <TableCell colSpan={3}>Sin datos</TableCell>
-                </TableRow>
-            );
-        }
+        const { ejercicios, classes } = this.props;
         return(
-            <Grid container>
+            <Grid container className={classes.content}>
                 <Grid item lg={12}>
                     <Table>
                         <TableHead>
@@ -89,7 +83,18 @@ class Home extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            { lista }
+                            { 
+                                ejercicios.length > 0 ? ejercicios.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell><Link to={`/ejercicio/${item.id}/vt`}>{item.id}</Link></TableCell>
+                                        <TableCell>{item.descripcion}</TableCell>
+                                        <TableCell><Button onClick={() => this.handleStartDelete(item.id)}>Eliminar</Button></TableCell>
+                                    </TableRow>
+                                )) :
+                                <TableRow>
+                                    <TableCell colSpan={3}>Sin datos</TableCell>
+                                </TableRow>
+                            }
                             {accion === 'add' && (
                                 <TableRow>
                                     <TableCell>
@@ -139,4 +144,7 @@ const mapDispatchToProps = (dispatch) => ({
     startDeleteEjercicio: (id) => dispatch(startDeleteEjercicio(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withStyles(styles)
+)(Home);

@@ -44,12 +44,6 @@ const styles = theme => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing.unit * 3,
-        minWidth: 0, // So the Typography noWrap works
-    },
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
@@ -79,7 +73,6 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary,
         padding: theme.spacing.unit * 2
     },
-    toolbar: theme.mixins.toolbar
 });
 
 class AppRouter extends React.Component {
@@ -94,10 +87,6 @@ class AppRouter extends React.Component {
         this.props.startShowHideMessage();
     }
 
-    handleDrawer = () => {
-        this.setState((state) => ({ showDrawer: !state.showDrawer }));
-    }
-
     render() {
         const { classes, appState, isAuthenticated } = this.props;
         return (
@@ -107,50 +96,43 @@ class AppRouter extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="absolute" className={classes.appBar}>
                         <Toolbar>
-                            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.handleDrawer}>
-                                <MenuIcon />
-                            </IconButton>
                             <Typography variant="title" color="inherit" noWrap className={classes.grow}>
                                 Máquina de Ejercicios
                             </Typography>
                             { isAuthenticated && <IconsAppBar /> /* muestra iconos superior derecho*/} 
                         </Toolbar>
                     </AppBar>
-                    { isAuthenticated && this.state.showDrawer && <LeftDrawer /> /* muestra menu izquierdo */}
-                    <main className={classes.content}>
-                        <div className={classes.toolbar} />
-                        <Switch>
-                            <PublicRoute path="/" component={Login} exact={true} />
-                            <PrivateRoute path="/home" component={Home} />
-                            <PrivateRoute path="/ejercicio/:eje/:ver" component={Ejercicio} />
-                            <PrivateRoute path="/cuentas" component={Cuentas} />
-                            <Route component={NotFoundPage}/>
-                        </Switch>
-                    </main>
+                    <Switch>
+                        <PublicRoute path="/" component={Login} exact={true} />
+                        <PrivateRoute path="/home" component={Home} />
+                        <PrivateRoute path="/ejercicio/:eje/:ver" component={Ejercicio} />
+                        <PrivateRoute path="/cuentas" component={Cuentas} />
+                        <Route component={NotFoundPage}/>
+                    </Switch>
                     <Modal
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                            open={appState.messageIsShowed}
-                            onClose={this.handleHideMessage}
-                        >
-                            <div className={classes.messages}>
-                                <div className={classes.messageTitle}>
-                                    <Typography component="h1">
-                                        Error
-                                    </Typography>
-                                </div>
-                                <div className={classes.messageBody}>
-                                    <Typography component="p" >
-                                        { appState.message }
-                                    </Typography>
-                                </div>
-                                <div className={classes.messageAction}>
-                                    <Button color="secondary" onClick={this.handleHideMessage}>
-                                        Entendido
-                                    </Button>
-                                </div>
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                        open={appState.messageIsShowed}
+                        onClose={this.handleHideMessage}
+                    >
+                        <div className={classes.messages}>
+                            <div className={classes.messageTitle}>
+                                <Typography component="h1">
+                                    Error
+                                </Typography>
                             </div>
-                        </Modal>
+                            <div className={classes.messageBody}>
+                                <Typography component="p" >
+                                    { appState.message }
+                                </Typography>
+                            </div>
+                            <div className={classes.messageAction}>
+                                <Button color="secondary" onClick={this.handleHideMessage}>
+                                    Entendido
+                                </Button>
+                            </div>
+                        </div>
+                    </Modal>
                 </div>
                 </React.Fragment>
             </Router>

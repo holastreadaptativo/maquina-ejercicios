@@ -23,7 +23,7 @@ class Variables extends React.Component {
     }
 
     render() {
-        const { theme } = this.props;
+        const { theme, variables } = this.props;
         return (
             <div dir={theme.direction}>
                 <List component="div" disablePadding dense>
@@ -33,18 +33,16 @@ class Variables extends React.Component {
                         <Edit />
                     </ListItem>
                     <Divider />
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Patrones y álgebra" />
-                    </ListItem>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Geometría" />
-                    </ListItem>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Medición" />
-                    </ListItem>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Datos y probabilidades" />
-                    </ListItem>
+                    {
+                        variables.length > 0 ? variables.map(variable => (
+                            <ListItem key={variable.id}>
+                                <ListItemText color="primary" primary={`$${variable.nombre} [${variable.vt}]`}/>
+                            </ListItem> 
+                        )) :
+                        <ListItem button >
+                            <ListItemText color="primary" primary={``}/>
+                        </ListItem>
+                    }
                 </List>
             </div>
         );

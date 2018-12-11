@@ -8,10 +8,25 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import LeftDrawer from './drawer/LeftDrawer';
 import { startOpenCloseModal } from '../actions/appstate';
 import { getComponent } from '../actions/funciones';
 
 const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        minHeight: "100vh",
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: '90px 30px 30px 30px',
+        minWidth: 0, // So the Typography noWrap works
+    },
     components: {
         position: 'absolute',
         top: 60,
@@ -49,7 +64,7 @@ class Ejercicio extends React.Component {
         this.setState({ value });
     }
 
-    getVariablesYVersion = () => {
+    getDetails = () => {
         const { eje, ver } = this.props.match.params;
         const variables = this.props.variables[eje];
         const versiones = this.props.versiones[eje];
@@ -62,7 +77,7 @@ class Ejercicio extends React.Component {
                 version[variables[i].nombre] = variables[i].vt;
             }
         }
-        return { variables, version };
+        return { variables, version, versiones };
     }
 
     componentDidMount() {
@@ -93,11 +108,11 @@ class Ejercicio extends React.Component {
     render() {
         const { eje, ver } = this.props.match.params;
         const { classes, appState } = this.props;
-        const { variables, version } = this.getVariablesYVersion();
         return (
-            <Grid container spacing={8}>
+            <main className={classes.root}>
+            <LeftDrawer {...this.getDetails()}/>
+            <Grid container spacing={8} className={classes.content}>
                 <Grid item lg={4}>
-
                 </Grid>
                 <Grid item lg={4}>
                     <Paper square>
@@ -115,7 +130,6 @@ class Ejercicio extends React.Component {
                     </Paper>
                 </Grid>
                 <Grid item lg={4}>
-
                 </Grid>
                 <Grid item lg={12}>
                     <div className={classes.contenedor}>
@@ -129,10 +143,11 @@ class Ejercicio extends React.Component {
                     onClose={this.handleCloseComponent}
                 >
                     <div className={classes.components}>
-                        { getComponent(appState.componentName, { eje, variables, version }) }
+                    
                     </div>
                 </Modal>
             </Grid>
+            </main>
         );
     }
 }

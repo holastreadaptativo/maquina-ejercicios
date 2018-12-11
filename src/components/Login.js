@@ -19,6 +19,12 @@ import { startLoginWithEmailAndPassword } from '../actions/auth';
 import { startLoginWithGoogle } from '../actions/auth';
 
 const styles = theme => ({
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: '90px 30px 30px 30px',
+        minWidth: 0, // So the Typography noWrap works
+    },
     paper: {
         display: 'flex',
         flexDirection: 'column',
@@ -73,7 +79,7 @@ class Login extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <Grid container justify={"center"}>
+            <Grid container justify={"center"} className={classes.content}>
                 <Grid item sm={12} md={8} lg={3}>
                     <Paper className={classes.paper}>
                         <Avatar className={classes.avatar}>

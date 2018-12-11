@@ -38,6 +38,9 @@ class Funciones extends React.Component {
             <div dir={theme.direction}>
                 <List component="nav">
                     <ListSubheader color="primary">Funciones</ListSubheader>
+                    <ListItem button >
+                        <ListItemText color="primary" primary="General" />
+                    </ListItem>
                     <ListItem color="primary" button onClick={this.handleClick}>
                         <ListItemText primary="Numeros y operaciones" />
                         {this.state.open ? <ExpandLess /> : <ExpandMore />}

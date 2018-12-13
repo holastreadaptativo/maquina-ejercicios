@@ -1,18 +1,18 @@
 import React from 'react';
-import {
-    TableRow,
-    TableCell,
-    Button,
-    Input,
-    InputLabel,
-    MenuItem,
-    FormControl,
-    FormHelperText,
-    Select,
-    withStyles
-} from '@material-ui/core';
-import _ from 'lodash';
-import { regexVariables } from '../../actions/funciones';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { pick } from 'lodash';
+
+
+import { regexVariables } from '../../../actions/funciones';
 
 const styles = theme => ({
     formControl: {
@@ -70,16 +70,19 @@ class AgregaEditaVariable extends React.Component {
         this.setState(() => ({ vt, vtError: '' }));
     }
 
-    handleAdd = (e) => {
+    handleGuardar = (e) => {
         const { nombre, tipo, valor, restriccion, vt } = this.state;
         try {
             if(restriccion) {
                 var obj = {};
                 obj[nombre] = vt;
                 var restriccionReemplazado = regexVariables(restriccion, { ...obj, ...this.props.version });
-                eval(restriccionReemplazado);
+                if(restriccionReemplazado.lenght > 0 && !eval(restriccionReemplazado)) {
+                    throw new Error("Esto es falso "+ eval(restriccionReemplazado));
+                }
             }
         } catch(e) {
+            console.log(e);
             this.setState(() => ({ restriccionError: 'Restriccion mal ingresada' }));
             return;
         }
@@ -104,62 +107,18 @@ class AgregaEditaVariable extends React.Component {
             default:
                 break;
         }
-        if(!Number.isInteger(parseInt(vt))) {
+        if(!(vt.length > 0)) {
             this.setState(() => ({ vtError: 'VT mal ingresada' }));
             return;
         }
-        let variable;
-        if(this.state.restriccion) {
-            variable = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        let variable = pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
+        if(this.state.id) {// si tiene el id de la variable esta editando
+            this.props.handleStartEdit(this.state.id, variable);
         } else {
-            variable = _.pick(this.state, ['nombre', 'tipo', 'valor', 'vt']);
+            this.props.handleStartAdd(variable);
         }
-        this.props.handleStartAdd(variable);
-    }
-
-    handleEdit = (e) => {
-        const { nombre, tipo, valor, restriccion, vt } = this.state;
-        try {
-            var obj = {};
-            obj[nombre] = vt;
-            var restriccionReemplazado = regexVariables(restriccion, { ...obj, ...this.props.version });
-            eval(restriccionReemplazado);
-        } catch(e) {
-            this.setState(() => ({ restriccionError: 'Restriccion mal ingresada' }));
-            return;
-        }
-        switch(tipo) {
-            case 'funcion':
-                try {
-                    eval(regexVariables(valor, this.props.version));
-                } catch(e) {
-                    this.setState(() => ({ valorError: 'Valor mal ingresado' }));
-                }   
-                break;
-            case 'numero':
-            /*opciones soportadas:  arreglo => [0, 5, 8, 16, 48] || rango => 1...10 || constante => 10*/
-                var isArreglo =  String(valor).startsWith('[') && String(valor).endsWith(']') && String(valor).split(',').length > 0;
-                var isRango = String(valor).indexOf('...') > 0 && String(valor).split('...').length === 2;
-                var isConstante = !isNaN(Number(valor));
-                if(!(isArreglo || isRango || isConstante)) {
-                    this.setState(() => ({ valorError: 'Valor mal ingresado' }));
-                    return;
-                }
-                break;
-            default:
-                break;
-        }
-        if(!Number.isInteger(parseInt(vt))) {
-            this.setState(() => ({ vtError: 'VT mal ingresada' }));
-            return;
-        }
-        let updates;
-        if(this.state.restriccion) {
-            updates = _.pick(this.state, ['nombre', 'tipo', 'valor', 'restriccion', 'vt']);
-        } else {
-            updates = _.pick(this.state, ['nombre', 'tipo', 'valor', 'vt']);
-        }
-        this.props.handleStartEdit(this.state.id, updates);
+            
+            
     }
 
     render() {
@@ -223,11 +182,7 @@ class AgregaEditaVariable extends React.Component {
                     </FormControl>
                 </TableCell>
                 <TableCell>
-                    {
-                        this.props.action === 'Edit' ?
-                            (<Button color="primary" onClick={this.handleEdit}>Editar</Button>) :
-                            (<Button color="primary" onClick={this.handleAdd}>Agregar</Button>)
-                    }
+                    <Button color="primary" onClick={this.handleGuardar}>Guardar</Button>
                 </TableCell>
                 <TableCell>
                     <Button color="primary" onClick={ this.handleCancel }>Cancelar</Button>

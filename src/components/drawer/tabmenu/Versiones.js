@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 
+import Add from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
 
 import { connect } from 'react-redux';
@@ -13,36 +14,38 @@ import compose from 'recompose/compose';
 
 import { startOpenCloseModal } from '../../../actions/appstate';
 
-class Variables extends React.Component {
+class Versiones extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    handleOpenModalVariables = (event) => {
-        this.props.startOpenCloseModal('Variables');
+    handleOpenModalAgregarVersion = () => {
+        this.props.startOpenCloseModal('Agregar Version');
+    }
+
+    handleOpenModalEditarVersion = () => {
+        this.props.startOpenCloseModal('Editar Version');
     }
 
     render() {
-        const { theme, variables } = this.props;
-        return (
+        const { theme } = this.props;
+        return(
             <div dir={theme.direction}>
                 <List component="div" disablePadding dense>
-                    <ListSubheader color="primary">Variables</ListSubheader>
-                    <ListItem color="primary" button onClick={ this.handleOpenModalVariables }>
+                    <ListSubheader color="primary">Versiones</ListSubheader>
+                    <ListItem color="primary" button onClick={ this.handleOpenModalAgregarVersion }>
+                        <ListItemText primary="Agregar" />
+                        <Add />
+                    </ListItem>
+                    <ListItem color="primary" button onClick={ this.handleOpenModalEditarVersion }>
                         <ListItemText primary="Editar" />
                         <Edit />
                     </ListItem>
                     <Divider />
-                    {
-                        variables.length > 0 ? variables.map(variable => (
-                            <ListItem key={variable.id}>
-                                <ListItemText color="primary" primary={`$${variable.nombre} [${variable.vt}]`}/>
-                            </ListItem> 
-                        )) :
-                        <ListItem button >
-                            <ListItemText color="primary" primary="Sin variables"/>
-                        </ListItem>
-                    }
+                    <ListItem color="primary">
+                        <ListItemText primary="Generar Versiones" />
+                    </ListItem>
+                    <Divider />
                 </List>
             </div>
         );
@@ -60,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
     withTheme(),
     connect(mapStateToProps, mapDispatchToProps)
-)(Variables);
+)(Versiones);

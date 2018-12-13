@@ -7,45 +7,16 @@ import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+
+import CloseIcon from '@material-ui/icons/Close';
 
 import LeftDrawer from './drawer/LeftDrawer';
 import { startOpenCloseModal } from '../actions/appstate';
-import { getComponent } from '../actions/funciones';
+//componentes
+import Variables from './modal/variables/Variables';
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        minHeight: "100vh",
-        zIndex: 1,
-        overflow: 'hidden',
-        position: 'relative',
-        display: 'flex',
-    },
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: '90px 30px 30px 30px',
-        minWidth: 0, // So the Typography noWrap works
-    },
-    components: {
-        position: 'absolute',
-        top: 60,
-        left: 60,
-        right: 60,
-        bottom: 60,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: 20
-    },
-    contenedor: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    iframe: {
-        border: '2px solid black'
-    }
-});
 
 class Ejercicio extends React.Component {
     constructor(props) {
@@ -77,7 +48,7 @@ class Ejercicio extends React.Component {
                 version[variables[i].nombre] = variables[i].vt;
             }
         }
-        return { variables, version, versiones };
+        return { eje, ver, variables, version, versiones };
     }
 
     componentDidMount() {
@@ -106,11 +77,12 @@ class Ejercicio extends React.Component {
     }
 
     render() {
-        const { eje, ver } = this.props.match.params;
         const { classes, appState } = this.props;
+        const detalles = this.getDetails()
+        console.log(this.props);
         return (
             <main className={classes.root}>
-            <LeftDrawer {...this.getDetails()}/>
+            <LeftDrawer {...detalles}/>
             <Grid container spacing={8} className={classes.content}>
                 <Grid item lg={4}>
                 </Grid>
@@ -143,7 +115,20 @@ class Ejercicio extends React.Component {
                     onClose={this.handleCloseComponent}
                 >
                     <div className={classes.components}>
-                    
+                        <div className={classes.modalHeader}>
+                            <Typography component="h3" variant="h3" color="primary">
+                                { appState.componentName }
+                            </Typography>
+                            <IconButton color="primary" onClick={this.handleCloseComponent}>
+                                <CloseIcon />
+                            </IconButton>
+                        </div>
+                        <div className={classes.modalBody}>
+                        { appState.componentName === 'Variables' && <Variables {...detalles}/> }
+                        </div>
+                        <div>
+
+                        </div>
                     </div>
                 </Modal>
             </Grid>
@@ -151,6 +136,51 @@ class Ejercicio extends React.Component {
         );
     }
 }
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        minHeight: "100vh",
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: '90px 30px 30px 30px',
+        minWidth: 0, // So the Typography noWrap works
+    },
+    components: {
+        position: 'absolute',
+        top: 60,
+        left: 60,
+        right: 60,
+        bottom: 60,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+    },
+    modalHeader: {
+        height: '80px',
+        color: '#000000',
+        padding: 20,
+        display: 'flex',
+        justifyContent: 'space-between',
+        borderBottom: '1px solid indigo'
+    },
+    modalBody: {
+        padding: 20,
+    },
+    contenedor: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    iframe: {
+        border: '2px solid black'
+    }
+});
 
 const mapDispatchToProps = (dispatch) => ({
     startOpenCloseModal: () => dispatch(startOpenCloseModal())

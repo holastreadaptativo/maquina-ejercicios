@@ -18,6 +18,8 @@ import compose from 'recompose/compose';
 
 import Funciones from './tabmenu/Funciones';
 import Variables from './tabmenu/Variables';
+import Versiones from './tabmenu/Versiones';
+import Seleccion from './tabmenu/Seleccion';
 
 const drawerWidth = 300;
 
@@ -34,12 +36,6 @@ const styles = theme => ({
         minWidth: 75
     }
 });
-
-const TabContainer = ({ children, dir }) => (
-    <div dir={dir}>
-        {children}
-    </div>
-);
 
 class LeftDrawer extends React.Component {
     constructor(props) {
@@ -59,6 +55,7 @@ class LeftDrawer extends React.Component {
 
     render () {
         const { classes, theme, variables, version } = this.props;
+        console.log(this.props);
         return (
             <Drawer
                 variant="permanent"
@@ -86,16 +83,8 @@ class LeftDrawer extends React.Component {
                     onChangeIndex={this.handleChangeIndex}
                 >
                     <Funciones />
-                    <TabContainer dir={theme.direction}>
-                        <List>
-                            <ListSubheader color="primary">Seleccion</ListSubheader>
-                        </List>
-                    </TabContainer>
-                    <TabContainer dir={theme.direction}>
-                        <List>
-                            <ListSubheader color="primary">Versiones</ListSubheader>
-                        </List>
-                    </TabContainer>
+                    <Seleccion />
+                    <Versiones />
                     <Variables variables={variables}/>
                 </SwipeableViews>
             </Drawer>

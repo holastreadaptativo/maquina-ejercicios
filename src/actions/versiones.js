@@ -11,10 +11,14 @@ export const startSetVersiones = () => {
         return database.ref('versiones').once('value').then((snapshot) => {
             const versiones = {};
             snapshot.forEach(childSnapshot => {
-                versiones[childSnapshot.key.toString()] = Object.keys(childSnapshot.val()).map(key => ({
-                    id: key,
-                    ...childSnapshot.val()[key]
-                }))
+                if(childSnapshot.val() === '{}') {
+                    versiones[childSnapshot.key.toString()] = [];
+                } else {
+                    versiones[childSnapshot.key.toString()] = Object.keys(childSnapshot.val()).map(key => ({
+                        id: key,
+                        ...childSnapshot.val()[key]
+                    }))
+                }
             });
             dispatch(setVersiones(versiones));
         }).catch((error) => {

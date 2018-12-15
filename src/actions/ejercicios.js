@@ -30,13 +30,23 @@ export const addEjercicio = (ejercicio) => ({
 
 export const startAddEjercicio = (id, descripcion) => {
     return (dispatch, getState) => {
-        return database.ref('ejercicios').child(`${id}`).set({ descripcion }).then(() => {
+        return database.ref(`ejercicios/${id}`).once('value').then(snapshot => {
+            if(snapshot.exists()) {
+                throw new Error('El ejercicio ya existe');
+            } else {
+                return Promise.all([
+                    database.ref(`ejercicios/${id}`).set({ descripcion }),
+                    database.ref(`variables/${id}`).set('{}'),
+                    database.ref(`versiones/${id}`).set('{}')
+                ]);
+            }
+        }).then(() => {
             dispatch(addEjercicio({
                 id,
                 descripcion
             }));
         }).catch((error) => {
-            dispatch(startShowHideMessage(error));
+            dispatch(startShowHideMessage(error.message));
         });
     }
 }

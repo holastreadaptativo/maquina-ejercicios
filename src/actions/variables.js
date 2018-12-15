@@ -11,10 +11,14 @@ export const startSetVariables = () => {
         return database.ref('variables').once('value').then((snapshot) => {
             const variables = {};
             snapshot.forEach(childSnapshot => {
-                variables[childSnapshot.key.toString()] = Object.keys(childSnapshot.val()).map(key => ({
-                    id: key,
-                    ...childSnapshot.val()[key]
-                }))
+                if(childSnapshot.val() === '{}') {
+                    variables[childSnapshot.key.toString()] = [];
+                } else {
+                    variables[childSnapshot.key.toString()] = Object.keys(childSnapshot.val()).map(key => ({
+                        id: key,
+                        ...childSnapshot.val()[key]
+                    }))
+                }
             });
             dispatch(setVariables(variables));
         }).catch((error) => {

@@ -116,7 +116,7 @@ class Ejercicio extends React.Component {
                 >
                     <div className={classes.components}>
                         <div className={classes.modalHeader}>
-                            <Typography component="h3" variant="h3" color="primary">
+                            <Typography variant="h2" gutterBottom>
                                 { appState.componentName }
                             </Typography>
                             <IconButton color="primary" onClick={this.handleCloseComponent}>

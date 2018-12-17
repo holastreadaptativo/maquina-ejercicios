@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
+import { Link } from 'react-router-dom';
 
 import Add from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
@@ -28,24 +29,41 @@ class Versiones extends React.Component {
     }
 
     render() {
-        const { theme } = this.props;
+        const { theme, versiones, eje } = this.props;
         return(
             <div dir={theme.direction}>
                 <List component="div" disablePadding dense>
                     <ListSubheader color="primary">Versiones</ListSubheader>
-                    <ListItem color="primary" button onClick={ this.handleOpenModalAgregarVersion }>
+                    <ListItem button onClick={ this.handleOpenModalAgregarVersion }>
                         <ListItemText primary="Agregar" />
                         <Add />
                     </ListItem>
-                    <ListItem color="primary" button onClick={ this.handleOpenModalEditarVersion }>
+                    <ListItem button onClick={ this.handleOpenModalEditarVersion }>
                         <ListItemText primary="Editar" />
                         <Edit />
                     </ListItem>
                     <Divider />
-                    <ListItem color="primary">
-                        <ListItemText primary="Generar Versiones" />
-                    </ListItem>
+                    {
+                        versiones.length === 0 ?
+                        <ListItem color="primary">
+                            <input />
+                            <ListItemText primary="Generar Versiones" />
+                        </ListItem> :
+                        <ListItem color="primary">
+                            <ListItemText primary="Regenerar Versiones" />
+                        </ListItem>
+                    }
                     <Divider />
+                    {
+                        versiones.length > 0 ? versiones.map((version) => {
+                            <ListItem key={variable.id} button component={Link} to={`/${eje}/${version.id}`}>
+                                <ListItemText color="primary" primary={version.id}/>
+                            </ListItem> 
+                        }) :
+                        <ListItem>
+                            <ListItemText color="primary" primary="Sin versiones"/>
+                        </ListItem>
+                    }
                 </List>
             </div>
         );

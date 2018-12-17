@@ -27,7 +27,13 @@ export const startSetVersiones = () => {
     };
 };
 
-export const generateVersions = (idEjercicio, numeroVersiones) => {
+export const generarVersiones = (idEjercicio, versiones) => ({
+    type: 'GENERAR_VERSIONES',
+    idEjercicio,
+    versiones
+});
+
+export const startGenerarVersiones = (variables, numeroVersiones) => {
     return (dispatch, getState) => {
         try {
             

@@ -54,7 +54,7 @@ class LeftDrawer extends React.Component {
     }
 
     render () {
-        const { classes, theme, variables, version } = this.props;
+        const { classes, theme, variables, versiones, ver, eje } = this.props;
         console.log(this.props);
         return (
             <Drawer
@@ -84,7 +84,7 @@ class LeftDrawer extends React.Component {
                 >
                     <Funciones />
                     <Seleccion />
-                    <Versiones />
+                    <Versiones eje={eje} ver={ver} versiones={versiones}/>
                     <Variables variables={variables}/>
                 </SwipeableViews>
             </Drawer>

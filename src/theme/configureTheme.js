@@ -5,7 +5,10 @@ export default () => {
         palette: {
             primary: indigo,
             secondary: red
-        }
+        },
+        typography: {
+            useNextVariants: true,
+        },
     });
     return theme;
 }

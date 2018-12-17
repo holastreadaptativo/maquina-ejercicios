@@ -96,7 +96,7 @@ class AppRouter extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="absolute" className={classes.appBar}>
                         <Toolbar>
-                            <Typography variant="title" color="inherit" noWrap className={classes.grow}>
+                            <Typography variant="h6" color="inherit" noWrap className={classes.grow}>
                                 Máquina de Ejercicios
                             </Typography>
                             { isAuthenticated && <IconsAppBar /> /* muestra iconos superior derecho*/} 

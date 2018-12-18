@@ -9,10 +9,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 
-
-import { regexVariables } from '../../../actions/funciones';
+import { regexVariables, numeroEnPalabras } from '../../../actions/funciones';
 
 const styles = theme => ({
     formControl: {
@@ -31,6 +30,7 @@ class AgregaEditaVariable extends React.Component {
             valor: this.props.action === 'Edit' ? this.props.valor : '',
             restriccion: this.props.action === 'Edit' ? this.props.restriccion : '',
             vt: this.props.action === 'Edit' ? this.props.vt : '',
+            nombreError: '',
             restriccionError : '',
             valorError: '',
             vtError: ''
@@ -81,24 +81,39 @@ class AgregaEditaVariable extends React.Component {
                     throw new Error("Esto es falso "+ eval(restriccionReemplazado));
                 }
             }
+            if(nombre.lenght === 1) {
+                throw new Error('Variable sin numbre');
+            }
         } catch(e) {
             console.log(e);
-            this.setState(() => ({ restriccionError: 'Restriccion mal ingresada' }));
+            this.setState(() => ({ nombreError: 'Restriccion mal ingresada' }));
             return;
         }
         switch(tipo) {
             case 'funcion':
                 try {
-                    eval(regexVariables(valor, this.props.version));
+                    let funcion = regexVariables(valor, this.props.version);
+                    if(String(funcion).indexOf('numeroEnPalabras') >= 0) {
+                        console.log(numeroEnPalabras(funcion.match(/\d{1,}/g)[0]));
+                    } else {
+                        console.log(funcion);
+                        eval(funcion);
+                        console.log(eval(funcion));
+                    }
                 } catch(e) {
                     this.setState(() => ({ valorError: 'Valor mal ingresado' }));
+                    console.log(e);
+                    return;
                 }   
                 break;
             case 'numero':
             /*opciones soportadas:  arreglo => 0, 5, 8, 16, 48 || rango => 1...10 || constante => 10*/
-                var isArreglo =  String(valor).split(',').length > 0;
-                var isRango = String(valor).indexOf('...') > 0 && String(valor).split('...').length === 2;
+                var isArreglo =  String(valor).match(/(\d{1,}(,)?){1,}/g);
+                var isRango = String(valor).match(/\d{1,}\.\.\.\d{1,}/g);
                 var isConstante = !isNaN(Number(valor));
+                isArreglo = isArreglo ? isArreglo.length === 1 : false;
+                isRango = isRango ? isRango.length === 1 : false;
+                console.log(isArreglo, isRango, isConstante);
                 if(!(isArreglo || isRango || isConstante)) {
                     this.setState(() => ({ valorError: 'Valor mal ingresado' }));
                     return;
@@ -122,7 +137,7 @@ class AgregaEditaVariable extends React.Component {
     }
 
     render() {
-        const { numero, nombre, tipo, valor, restriccion, vt, valorError, vtError, restriccionError } = this.state;
+        const { numero, nombre, tipo, valor, restriccion, vt, nombreError, valorError, vtError, restriccionError } = this.state;
         const { classes } = this.props;
         return (
             <TableRow>
@@ -135,6 +150,7 @@ class AgregaEditaVariable extends React.Component {
                             value={nombre}
                             onChange={this.handleChangeNombre}
                         />
+                        { nombreError && <FormHelperText>{nombreError}</FormHelperText> }
                     </FormControl>
                 </TableCell>
                 <TableCell>

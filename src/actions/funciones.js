@@ -14,7 +14,7 @@ tipo: "numero"
 valor: "1...9"
 vt: "5"
 */
-export const generarVersiones = (variables, numeroVersiones) => {
+export const generadorDeVersiones = (variables, numeroVersiones) => {
     var versiones = [];
     for(var i = 0, version={}; i < numeroVersiones; i++) {
         variables.forEach(variable => {

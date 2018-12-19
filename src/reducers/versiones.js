@@ -12,6 +12,11 @@ export default (state = versionesDefaultState, action) => {
             return omit(state, action.id);
         case 'SET_VERSIONES':
             return action.versiones;
+        case 'GENERAR_VERSIONES':
+            return {
+                ...state,
+                [action.idEjercicio]: state[action.idEjercicio].concat(action.versiones)
+            }
         case 'UNSET_VERSIONES':
             return versionesDefaultState;
         default:

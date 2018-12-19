@@ -18,7 +18,7 @@ export const startSetEjercicios = () => {
             });
             dispatch(setEjercicios(ejercicios));
         }).catch((error) => {
-            dispatch(startShowHideMessage(error));
+            dispatch(startShowHideMessage(error.message));
         });
     };
 };

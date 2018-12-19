@@ -22,7 +22,7 @@ export const startSetVariables = () => {
             });
             dispatch(setVariables(variables));
         }).catch((error) => {
-            dispatch(startShowHideMessage(error));
+            dispatch(startShowHideMessage(error.message));
         });
     };
 };

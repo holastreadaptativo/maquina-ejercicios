@@ -10,13 +10,14 @@ import { Link } from 'react-router-dom';
 
 import Add from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux';
 import { withTheme } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import { startOpenCloseModal } from '../../../actions/appstate';
-import { generarVersiones } from '../../../actions/funciones';
+import { startGenerarVersiones } from '../../../actions/versiones';
 
 class Versiones extends React.Component {
     constructor(props) {
@@ -35,7 +36,8 @@ class Versiones extends React.Component {
     }
 
     handleCreateVersions = () => {
-        console.log(generarVersiones(this.props.variables, Number(this.state.cantidadVersiones)));
+        const { variables, eje } = this.props;
+        this.props.startGenerarVersiones(eje, variables, Number(this.state.cantidadVersiones));
     }
 
     handleChangeCantidadVersiones = (e) => {
@@ -44,7 +46,7 @@ class Versiones extends React.Component {
     }
 
     render() {
-        const { theme, versiones, eje } = this.props;
+        const { theme, versiones, eje, ver } = this.props;
         return(
             <div dir={theme.direction}>
                 <List component="div" disablePadding dense>
@@ -73,9 +75,18 @@ class Versiones extends React.Component {
                     <Divider />
                     {
                         versiones.length > 0 ? versiones.map((version) => {
-                            <ListItem key={variable.id} button component={Link} to={`/${eje}/${version.id}`}>
-                                <ListItemText color="primary" primary={version.id}/>
-                            </ListItem> 
+                            return ver === version.id ? 
+                            <ListItem dense key={version.id}>
+                                <ListItemText primary={version.id} />
+                                { 
+                                    <IconButton aria-label="Generar">
+                                        <Delete />
+                                    </IconButton> 
+                                }
+                            </ListItem>  :
+                            <ListItem key={version.id} button component={Link} to={`/ejercicio/${eje}/${version.id}`}>
+                                <ListItemText primary={version.id} />
+                            </ListItem>
                         }) :
                         <ListItem>
                             <ListItemText color="primary" primary="Sin versiones"/>
@@ -92,7 +103,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startOpenCloseModal: (component) => dispatch(startOpenCloseModal(component))
+    startOpenCloseModal: (component) => dispatch(startOpenCloseModal(component)),
+    startGenerarVersiones: (idEjercicio, variables, numeroVersiones) => dispatch(startGenerarVersiones(idEjercicio, variables, numeroVersiones))
 });
 
 export default compose(

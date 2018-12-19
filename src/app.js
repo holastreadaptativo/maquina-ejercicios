@@ -46,7 +46,9 @@ auth.onAuthStateChanged((user) => {
             if(history.location.pathname === '/') {
                 history.push('/home');
             }
-        })
+        }).catch(()=> {
+            store.dispatch(logout());
+        });
     } else {
         store.dispatch(logout());
         renderApp();

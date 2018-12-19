@@ -126,9 +126,6 @@ class Ejercicio extends React.Component {
                         <div className={classes.modalBody}>
                         { appState.componentName === 'Variables' && <Variables {...detalles}/> }
                         </div>
-                        <div>
-
-                        </div>
                     </div>
                 </Modal>
             </Grid>
@@ -171,6 +168,8 @@ const styles = theme => ({
     },
     modalBody: {
         padding: 20,
+        maxHeight: 'calc(100% - 120px)',
+        overflowY: 'scroll'
     },
     contenedor: {
         display: 'flex',

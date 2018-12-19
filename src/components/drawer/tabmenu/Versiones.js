@@ -4,6 +4,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Send from '@material-ui/icons/Send';
 import { Link } from 'react-router-dom';
 
 import Add from '@material-ui/icons/Add';
@@ -14,10 +16,14 @@ import { withTheme } from '@material-ui/core';
 import compose from 'recompose/compose';
 
 import { startOpenCloseModal } from '../../../actions/appstate';
+import { generarVersiones } from '../../../actions/funciones';
 
 class Versiones extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            cantidadVersiones: '0'
+        }
     }
 
     handleOpenModalAgregarVersion = () => {
@@ -26,6 +32,15 @@ class Versiones extends React.Component {
 
     handleOpenModalEditarVersion = () => {
         this.props.startOpenCloseModal('Editar Version');
+    }
+
+    handleCreateVersions = () => {
+        console.log(generarVersiones(this.props.variables, Number(this.state.cantidadVersiones)));
+    }
+
+    handleChangeCantidadVersiones = (e) => {
+        const cantidadVersiones = e.target.value;
+        this.setState(() => ({ cantidadVersiones }));
     }
 
     render() {
@@ -46,8 +61,10 @@ class Versiones extends React.Component {
                     {
                         versiones.length === 0 ?
                         <ListItem color="primary">
-                            <input />
-                            <ListItemText primary="Generar Versiones" />
+                            <input type="text" id="txtCantidad" value={this.state.cantidadVersiones} onChange={this.handleChangeCantidadVersiones}/>
+                            <IconButton aria-label="Generar" onClick={this.handleCreateVersions}>
+                                <Send />
+                            </IconButton>
                         </ListItem> :
                         <ListItem color="primary">
                             <ListItemText primary="Regenerar Versiones" />

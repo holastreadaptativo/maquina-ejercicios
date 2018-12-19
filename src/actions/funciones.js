@@ -6,6 +6,14 @@ export const regexVariables = (texto, version) => {
     return result;
 };
 
+/*
+ejemplo variable
+nombre: "w"
+restriccion: ""
+tipo: "numero"
+valor: "1...9"
+vt: "5"
+*/
 export const generarVersiones = (variables, numeroVersiones) => {
     var versiones = [];
     for(var i = 0, version={}; i < numeroVersiones; i++) {
@@ -14,7 +22,10 @@ export const generarVersiones = (variables, numeroVersiones) => {
             var valor = regexVariables(variable.valor, version);
             switch(variable.tipo){
                 case 'numero':
-
+                    if(variable.valor.match(/\d{1,}\.\.\.\d{1,}/g)) {
+                        var limites = variable.valor.split('...');
+                        version[variable.nombre] = Math.floor(Math.random()*(Number(limites[1])-Number(limites[0])+1)+Number(limites[0]));
+                    }
                     break;
                 case 'funcion':
                         var valor = regexVariables(variable.valor, version);
@@ -25,6 +36,7 @@ export const generarVersiones = (variables, numeroVersiones) => {
             }
         });
         versiones.push(version);
+        version={}
     }
     return versiones;
 };

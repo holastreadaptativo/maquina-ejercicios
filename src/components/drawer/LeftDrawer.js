@@ -84,7 +84,7 @@ class LeftDrawer extends React.Component {
                 >
                     <Funciones />
                     <Seleccion />
-                    <Versiones eje={eje} ver={ver} versiones={versiones}/>
+                    <Versiones eje={eje} ver={ver} versiones={versiones} variables={variables}/>
                     <Variables variables={variables}/>
                 </SwipeableViews>
             </Drawer>

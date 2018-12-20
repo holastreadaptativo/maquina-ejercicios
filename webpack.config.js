@@ -20,17 +20,6 @@ module.exports = (env) => {
         }
       }]
     },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'modules',
-            chunks: 'all'
-          }
-        }
-      }
-    },
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),

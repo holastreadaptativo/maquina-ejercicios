@@ -23,7 +23,7 @@ class Variables extends React.Component {
     }
 
     render() {
-        const { theme, variables } = this.props;
+        const { theme, version } = this.props;
         return (
             <div dir={theme.direction}>
                 <List component="div" disablePadding dense>
@@ -33,12 +33,15 @@ class Variables extends React.Component {
                         <Edit />
                     </ListItem>
                     <Divider />
+                    <ListItem selected={true}>
+                        <ListItemText color="primary" primary={`Versión: ${version.id}`}/>
+                    </ListItem>
                     {
-                        variables.length > 0 ? variables.map(variable => (
-                            <ListItem key={variable.id}>
-                                <ListItemText color="primary" primary={`$${variable.nombre} [${variable.vt}]`}/>
-                            </ListItem> 
-                        )) :
+                        Object.keys(version).length > 0 ? Object.keys(version).filter(key => key !== 'id').map(key =>
+                            <ListItem key={key}>
+                                <ListItemText color="primary" primary={`$${key} [${version[key]}]`}/>
+                            </ListItem>
+                        ) :
                         <ListItem button >
                             <ListItemText color="primary" primary="Sin variables"/>
                         </ListItem>

@@ -15,10 +15,22 @@ export default (state = versionesDefaultState, action) => {
         case 'GENERAR_VERSIONES':
             return {
                 ...state,
-                [action.idEjercicio]: state[action.idEjercicio].concat(action.versiones)
+                [action.idEjercicio]: state[action.idEjercicio].filter(version => false).concat(action.versiones)
             }
-        case 'UNSET_VERSIONES':
-            return versionesDefaultState;
+        case 'UPDATE_VERSION':
+            return {
+                ...state,
+                [action.idEjercicio]: state[action.idEjercicio].map((version) => {
+                    if(version.id === action.idVersion) {
+                        return {
+                            ...version,
+                            ...action.updates
+                        }
+                    } else {
+                        return version;
+                    }
+                })
+            }
         default:
             return state;
     }

@@ -1,4 +1,5 @@
 const appStateDefaultState = {
+    drawerIndex: 0,
     modalIsOpen: false,
     componentName: undefined,
     messageIsShowed: false,
@@ -13,6 +14,11 @@ export default (state = appStateDefaultState, action) => {
                 ...action.appState
             };
         case 'HANDLE_SHOW_HIDE_MESSAGE':
+            return {
+                ...state,
+                ...action.appState
+            }
+        case 'HANDLE_CHANGE_TAB':
             return {
                 ...state,
                 ...action.appState

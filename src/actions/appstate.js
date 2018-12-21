@@ -33,3 +33,10 @@ export const startShowHideMessage = ( message = undefined ) => {
         }));
     };
 };
+
+export const changeTab = (drawerIndex) => ({
+    type:'HANDLE_CHANGE_TAB',
+    appState: {
+        drawerIndex
+    }
+});

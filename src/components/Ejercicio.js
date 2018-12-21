@@ -23,7 +23,8 @@ class Ejercicio extends React.Component {
         super(props);
         this.iframe = React.createRef();
         this.state = {
-            value: 2
+            tabPlataforma: 2,
+            tabDrawer: 0
         }
     }
 
@@ -31,8 +32,12 @@ class Ejercicio extends React.Component {
         this.props.startOpenCloseModal();
     }
 
-    handleChange = (event, value) => {
-        this.setState({ value });
+    handleChangePlatform = (event, value) => {
+        this.setState({ tabPlataforma: value });
+    }
+
+    handleChangeDrawer = (value) => {
+        this.setState({ tabDrawer: value });
     }
 
     getDetails = () => {
@@ -43,9 +48,11 @@ class Ejercicio extends React.Component {
         if(versiones && ver !== 'vt') {
             version = versiones.find(item => item.id === ver);
         } else if(variables && ver === 'vt') {
-            version = {};
-            for(var i = 0; i < variables.length; i++) {
-                version[variables[i].nombre] = variables[i].vt;
+            version = {
+                id: 'vt'
+            };
+            for(let variable of variables) {
+                version[variable.nombre] = variable.vt;
             }
         }
         return { eje, ver, variables, version, versiones };
@@ -60,7 +67,7 @@ class Ejercicio extends React.Component {
     }
 
     handleIFrame = () => {
-        switch(this.state.value) {
+        switch(this.state.tabPlataforma) {
             case 0:
                 this.iframe.current.width = 375;
                 this.iframe.current.height = 667;
@@ -79,20 +86,19 @@ class Ejercicio extends React.Component {
     render() {
         const { classes, appState } = this.props;
         const detalles = this.getDetails()
-        console.log(this.props);
         return (
             <main className={classes.root}>
-            <LeftDrawer {...detalles}/>
+            <LeftDrawer {...detalles} handleChangeDrawer={this.handleChangeDrawer} tabDrawer={this.state.tabDrawer}/>
             <Grid container spacing={8} className={classes.content}>
                 <Grid item lg={4}>
                 </Grid>
                 <Grid item lg={4}>
                     <Paper square>
                         <Tabs
-                            value={this.state.value}
+                            value={this.state.tabPlataforma}
                             indicatorColor="primary"
                             textColor="primary"
-                            onChange={this.handleChange}
+                            onChange={this.handleChangePlatform}
                             fullWidth
                         >
                             <Tab label="Mobile" />

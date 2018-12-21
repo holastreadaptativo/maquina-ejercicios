@@ -85,7 +85,7 @@ class Login extends React.Component {
                         <Avatar className={classes.avatar}>
                             <LockIcon />
                         </Avatar>
-                        <Typography variant="headline">Iniciar Sesion</Typography>
+                        <Typography variant="h2">Iniciar Sesion</Typography>
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Correo</InputLabel>
@@ -110,7 +110,6 @@ class Login extends React.Component {
                             <Button
                                 type="submit"
                                 fullWidth
-                                variant="raised"
                                 color="primary"
                                 className={classes.submit}
                             >
@@ -120,7 +119,6 @@ class Login extends React.Component {
                         <Button
                             type="button"
                             fullWidth
-                            variant="raised"
                             color="secondary"
                             className={classes.submit}
                             onClick={this.handleLoginWithGoogle}

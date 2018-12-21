@@ -1,10 +1,8 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import ListSubheader from '@material-ui/core/ListSubheader';
 
 import ViewListIcon from '@material-ui/icons/ViewList';
 import FunctionsIcon from '@material-ui/icons/Functions';
@@ -40,22 +38,18 @@ const styles = theme => ({
 class LeftDrawer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            value: 0
-        };
     }
 
     handleChange = (event, value) => {
-        this.setState({ value });
+        this.props.handleChangeDrawer(value);
     }
 
     handleChangeIndex = index => {
-        this.setState({ value: index });
+        this.props.handleChangeDrawer(index);
     }
 
     render () {
-        const { classes, theme, variables, versiones, ver, eje } = this.props;
-        console.log(this.props);
+        const { classes, theme, variables, versiones, ver, eje, version, tabDrawer } = this.props;
         return (
             <Drawer
                 variant="permanent"
@@ -66,7 +60,7 @@ class LeftDrawer extends React.Component {
                 <div className={classes.toolbar} />
                 <AppBar position="static" color="default" className={classes.rootTabs}>
                     <Tabs 
-                        value={this.state.value}
+                        value={tabDrawer}
                         onChange={this.handleChange}
                         indicatorColor="primary"
                         textColor="primary"
@@ -79,13 +73,13 @@ class LeftDrawer extends React.Component {
                 </AppBar>
                 <SwipeableViews
                     axis={theme.direction === 'rtl' ? 'x-reverse': 'x'}
-                    index={this.state.value}
+                    index={tabDrawer}
                     onChangeIndex={this.handleChangeIndex}
                 >
                     <Funciones />
                     <Seleccion />
                     <Versiones eje={eje} ver={ver} versiones={versiones} variables={variables}/>
-                    <Variables variables={variables}/>
+                    <Variables version={version}/>
                 </SwipeableViews>
             </Drawer>
         );

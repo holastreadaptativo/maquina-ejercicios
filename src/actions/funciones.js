@@ -19,7 +19,6 @@ export const generadorDeVersiones = (variables, numeroVersiones) => {
     for(var i = 0, version={}; i < numeroVersiones; i++) {
         variables.forEach(variable => {
             var restriccion = regexVariables(variable.restriccion, version);
-            var valor = regexVariables(variable.valor, version);
             switch(variable.tipo){
                 case 'numero':
                     if(variable.valor.match(/\d{1,}\.\.\.\d{1,}/g)) {

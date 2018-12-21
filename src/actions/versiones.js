@@ -42,8 +42,12 @@ export const startGenerarVersiones = (idEjercicio, variables, numeroVersiones) =
             if(versiones.length !== numeroVersiones) {
                 throw new Error('Error al generar versiones');
             }
-            let uid;
-            var versionesGeneradas = versiones.map(version => {
+        } catch(error) {
+            dispatch(startShowHideMessage(error.message));
+        }
+        let uid;
+        return database.ref(`versiones/${idEjercicio}`).set('{}').then(()=> {
+            let versionesGeneradas = versiones.map(version => {
                 uid = nuid(5);
                 database.ref(`versiones/${idEjercicio}/${uid}`).set(version).then(()=>{
                     console.log('version agregada =>', version);
@@ -54,15 +58,37 @@ export const startGenerarVersiones = (idEjercicio, variables, numeroVersiones) =
                     id: uid,
                     ...version
                 }
-            })
+            });
             dispatch(generarVersiones(idEjercicio, versionesGeneradas));
-        } catch(error) {
+        }).catch((error) => {
             dispatch(startShowHideMessage(error.message));
-        }
+        });
     };
 };
 
-export const unsetVersiones = () => ({
-    type: 'UNSET_VERSIONES'
+export const updateVersion = (idEjercicio, idVersion, updates) => ({
+    type: 'UPDATE_VERSION',
+    idEjercicio,
+    idVersion,
+    updates
 });
+
+export const startUpdateVersion = (idEjercicio, idVersion, variables) => {
+    console.log(idEjercicio, idVersion);
+    return (dispatch, getState) => {
+        try {
+            var updates = generadorDeVersiones(variables, 1);
+            if(updates.length === 0) {
+                throw new Error('Error al generar nueva version');
+            }
+        } catch(error) {
+            dispatch(startShowHideMessage(error.message));
+        }
+        return database.ref(`versiones/${idEjercicio}/${idVersion}`).update(updates[0]).then(()=>{
+            dispatch(updateVersion(idEjercicio, idVersion, updates[0]));
+        }).catch((error)=>{
+            dispatch(startShowHideMessage(error.message));
+        });
+    }
+};
 

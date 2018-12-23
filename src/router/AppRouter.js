@@ -1,12 +1,8 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 import createHistory from 'history/createBrowserHistory';
 import { Router, Route, Switch } from 'react-router-dom';
@@ -21,8 +17,7 @@ import Login from '../components/Login';
 import NotFoundPage from '../components/NotFoundPage';
 import { startShowHideMessage } from '../actions/appstate';
 
-import LeftDrawer from '../components/drawer/LeftDrawer'
-import IconsAppBar from '../components/navbaricons/Icons';
+import TopAppBar from '../components/appbar/TopAppBar';
 
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
@@ -37,16 +32,6 @@ const styles = theme => ({
         overflow: 'hidden',
         position: 'relative',
         display: 'flex',
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
     },
     messages: {
         position: 'absolute',
@@ -88,20 +73,13 @@ class AppRouter extends React.Component {
     }
 
     render() {
-        const { classes, appState, isAuthenticated } = this.props;
+        const { classes, appState } = this.props;
         return (
             <Router history={history}>
                 <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <AppBar position="absolute" className={classes.appBar}>
-                        <Toolbar>
-                            <Typography variant="h6" color="inherit" noWrap className={classes.grow}>
-                                Máquina de Ejercicios
-                            </Typography>
-                            { isAuthenticated && <IconsAppBar /> /* muestra iconos superior derecho*/} 
-                        </Toolbar>
-                    </AppBar>
+                    <TopAppBar />
                     <Switch>
                         <PublicRoute path="/" component={Login} exact={true} />
                         <PrivateRoute path="/home" component={Home} />
@@ -141,8 +119,7 @@ class AppRouter extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    appState: state.appState,
-    isAuthenticated: Object.keys(state.user).length !== 0
+    appState: state.appState
 });
 
 const mapDispatchToProps = (dispatch) => ({

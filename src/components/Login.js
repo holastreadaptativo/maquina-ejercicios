@@ -85,7 +85,7 @@ class Login extends React.Component {
                         <Avatar className={classes.avatar}>
                             <LockIcon />
                         </Avatar>
-                        <Typography variant="h2">Iniciar Sesion</Typography>
+                        <Typography variant="h4">Iniciar Sesion</Typography>
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Correo</InputLabel>

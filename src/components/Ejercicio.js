@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
 import CloseIcon from '@material-ui/icons/Close';
+import MobileScreenShareIcon from '@material-ui/icons/MobileScreenShare';
+import TabletAndroidIcon from '@material-ui/icons/TabletAndroid';
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
 
 import LeftDrawer from './drawer/LeftDrawer';
 import { startOpenCloseModal } from '../actions/appstate';
@@ -90,9 +93,9 @@ class Ejercicio extends React.Component {
             <main className={classes.root}>
             <LeftDrawer {...detalles} handleChangeDrawer={this.handleChangeDrawer} tabDrawer={this.state.tabDrawer}/>
             <Grid container spacing={8} className={classes.content}>
-                <Grid item lg={4}>
+                <Grid item lg={3}>
                 </Grid>
-                <Grid item lg={4}>
+                <Grid item lg={6}>
                     <Paper square>
                         <Tabs
                             value={this.state.tabPlataforma}
@@ -101,13 +104,13 @@ class Ejercicio extends React.Component {
                             onChange={this.handleChangePlatform}
                             fullWidth
                         >
-                            <Tab label="Mobile" />
-                            <Tab label="Tablet" />
-                            <Tab label="Desktop" />
+                            <Tab icon={<MobileScreenShareIcon/>} />
+                            <Tab icon={<TabletAndroidIcon/>} />
+                            <Tab icon={<DesktopWindowsIcon/>} />
                         </Tabs>
                     </Paper>
                 </Grid>
-                <Grid item lg={4}>
+                <Grid item lg={3}>
                 </Grid>
                 <Grid item lg={12}>
                     <div className={classes.contenedor}>

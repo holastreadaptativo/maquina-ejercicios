@@ -27,9 +27,8 @@ class Funciones extends React.Component {
         this.setState((state) => ({ open: !state.open }));
     }
 
-    handleOpenModalPerimetro = (event) => {
-        console.log('asi se puede abrir un modal desde aqui');
-        //this.props.startOpenCloseModal('Igual Perimetro');
+    handleOpenModal = (modal) => {
+        this.props.startOpenCloseModal(modal);
     }
 
     render() {
@@ -38,30 +37,30 @@ class Funciones extends React.Component {
             <div dir={theme.direction}>
                 <List component="nav">
                     <ListSubheader color="primary">Funciones</ListSubheader>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="General" />
-                    </ListItem>
-                    <ListItem color="primary" button onClick={this.handleClick}>
-                        <ListItemText primary="Numeros y operaciones" />
+                    <ListItem button onClick={this.handleClick}>
+                        <ListItemText primary="General" />
                         {this.state.open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto">
                         <List component="div" disablePadding dense>
-                            <ListItem button onClick={this.handleOpenModalPerimetro}>
-                                <ListItemText primary="Igual Perimetro" />
+                            <ListItem button onClick={() => this.handleOpenModal('Agregar Texto')}>
+                                <ListItemText primary="Agregar Texto" />
                             </ListItem>
                         </List>
                     </Collapse>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Patrones y álgebra" />
+                    <ListItem button>
+                        <ListItemText primary="Numeros y operaciones" />
                     </ListItem>
-                    <ListItem button >
-                        <ListItemText color="primary" primary="Geometría" />
+                    <ListItem button>
+                        <ListItemText primary="Patrones y álgebra" />
                     </ListItem>
-                    <ListItem button >
+                    <ListItem button>
+                        <ListItemText primary="Geometría" />
+                    </ListItem>
+                    <ListItem button>
                         <ListItemText color="primary" primary="Medición" />
                     </ListItem>
-                    <ListItem button >
+                    <ListItem button>
                         <ListItemText color="primary" primary="Datos y probabilidades" />
                     </ListItem>
                 </List>

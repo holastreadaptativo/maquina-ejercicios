@@ -13,6 +13,8 @@ import { startSetEjercicios } from './actions/ejercicios';
 import { startSetVariables } from './actions/variables';
 import { startSetVersiones } from './actions/versiones';
 
+import 'draft-js/dist/Draft.css';
+
 const store = configureStore();
 const theme = configureTheme();
 

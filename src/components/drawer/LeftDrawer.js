@@ -38,18 +38,22 @@ const styles = theme => ({
 class LeftDrawer extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tabDrawer: 0
+        }
     }
 
-    handleChange = (event, value) => {
-        this.props.handleChangeDrawer(value);
+    handleChangeDrawer = (event, value) => {
+        this.setState({ tabDrawer: value });
     }
 
     handleChangeIndex = index => {
-        this.props.handleChangeDrawer(index);
+        this.setState({ tabDrawer: index });
     }
 
     render () {
-        const { classes, theme, variables, versiones, ver, eje, version, tabDrawer } = this.props;
+        const { classes, theme, variables, versiones, ver, eje, version } = this.props;
+        const { tabDrawer } = this.state;
         return (
             <Drawer
                 variant="permanent"
@@ -61,7 +65,7 @@ class LeftDrawer extends React.Component {
                 <AppBar position="static" color="default" className={classes.rootTabs}>
                     <Tabs 
                         value={tabDrawer}
-                        onChange={this.handleChange}
+                        onChange={this.handleChangeDrawer}
                         indicatorColor="primary"
                         textColor="primary"
                     >

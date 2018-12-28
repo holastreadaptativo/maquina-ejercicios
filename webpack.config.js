@@ -18,6 +18,9 @@ module.exports = (env) => {
         use: {
           loader: 'babel-loader'
         }
+      },{
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       }]
     },
     devtool: isProduction ? 'source-map' : 'inline-source-map',

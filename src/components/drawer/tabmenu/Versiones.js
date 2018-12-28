@@ -22,7 +22,9 @@ import { startGenerarVersiones, startUpdateVersion } from '../../../actions/vers
 const styles = {
     txtCantidadVersiones: {
         width: '40px',
-        border: '1px solid black'
+        border: '1px solid black',
+        borderRadius: '5px',
+        padding: '2px'
     }
 }
 

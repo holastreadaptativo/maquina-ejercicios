@@ -19,7 +19,7 @@ import LeftDrawer from './drawer/LeftDrawer';
 import { startOpenCloseModal } from '../actions/appstate';
 //componentes
 import Variables from './modal/variables/Variables';
-
+import AgregarTexto from './modal/texto/AgregarTexto';
 
 class Ejercicio extends React.Component {
     constructor(props) {
@@ -37,10 +37,6 @@ class Ejercicio extends React.Component {
 
     handleChangePlatform = (event, value) => {
         this.setState({ tabPlataforma: value });
-    }
-
-    handleChangeDrawer = (value) => {
-        this.setState({ tabDrawer: value });
     }
 
     getDetails = () => {
@@ -91,11 +87,9 @@ class Ejercicio extends React.Component {
         const detalles = this.getDetails()
         return (
             <main className={classes.root}>
-            <LeftDrawer {...detalles} handleChangeDrawer={this.handleChangeDrawer} tabDrawer={this.state.tabDrawer}/>
+            <LeftDrawer {...detalles}/>
             <Grid container spacing={8} className={classes.content}>
-                <Grid item lg={3}>
-                </Grid>
-                <Grid item lg={6}>
+                <Grid item xs={12} md={8} xl={4}>
                     <Paper square>
                         <Tabs
                             value={this.state.tabPlataforma}
@@ -110,9 +104,7 @@ class Ejercicio extends React.Component {
                         </Tabs>
                     </Paper>
                 </Grid>
-                <Grid item lg={3}>
-                </Grid>
-                <Grid item lg={12}>
+                <Grid item xs={12} >
                     <div className={classes.contenedor}>
                         <iframe className={classes.iframe} ref={this.iframe} src="/dist/iframe.html"></iframe>
                     </div>
@@ -134,6 +126,7 @@ class Ejercicio extends React.Component {
                         </div>
                         <div className={classes.modalBody}>
                         { appState.componentName === 'Variables' && <Variables {...detalles}/> }
+                        { appState.componentName === 'Agregar Texto' && <AgregarTexto {...detalles}/> }
                         </div>
                     </div>
                 </Modal>

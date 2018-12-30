@@ -37,7 +37,8 @@ export const startAddEjercicio = (id, descripcion) => {
                 return Promise.all([
                     database.ref(`ejercicios/${id}`).set({ descripcion }),
                     database.ref(`variables/${id}`).set('{}'),
-                    database.ref(`versiones/${id}`).set('{}')
+                    database.ref(`versiones/${id}`).set('{}'),
+                    database.ref(`enunciados/${id}`).set('{}')
                 ]);
             }
         }).then(() => {
@@ -61,7 +62,8 @@ export const startDeleteEjercicio = (id) => {
         return Promise.all([
             database.ref(`ejercicios/${id}`).remove(),
             database.ref(`variables/${id}`).remove(),
-            database.ref(`versiones/${id}`).remove()
+            database.ref(`versiones/${id}`).remove(),
+            database.ref(`enunciados/${id}`).remove()
         ]).then(() => {
             dispatch(deleteEjercicio(id));
         }).catch((error) => {

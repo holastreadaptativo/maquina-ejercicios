@@ -7,6 +7,7 @@ import AuthStateReducer from '../reducers/auth'
 import EjerciciosReducer from '../reducers/ejercicios';
 import VariablesReducer from '../reducers/variables';
 import VersionesReducer from '../reducers/versiones';
+import EnunciadosReducer from '../reducers/enunciados';
 
 export default () => {
     const store = createStore(
@@ -15,7 +16,8 @@ export default () => {
             user: AuthStateReducer,
             ejercicios: EjerciciosReducer,
             variables: VariablesReducer,
-            versiones: VersionesReducer
+            versiones: VersionesReducer,
+            enunciados: EnunciadosReducer
         }), 
         composeEnhancers(applyMiddleware(thunk))
     );

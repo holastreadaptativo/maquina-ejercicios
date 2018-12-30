@@ -12,8 +12,9 @@ import { auth } from './database/firebase';
 import { startSetEjercicios } from './actions/ejercicios';
 import { startSetVariables } from './actions/variables';
 import { startSetVersiones } from './actions/versiones';
+import { startSetEnunciados } from './actions/enunciados';
 
-import 'draft-js/dist/Draft.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const store = configureStore();
 const theme = configureTheme();
@@ -42,7 +43,8 @@ auth.onAuthStateChanged((user) => {
         Promise.all([
             store.dispatch(startSetEjercicios()),
             store.dispatch(startSetVariables()),
-            store.dispatch(startSetVersiones())
+            store.dispatch(startSetVersiones()),
+            store.dispatch(startSetEnunciados())
         ]).then(() => {
             renderApp();
             if(history.location.pathname === '/') {

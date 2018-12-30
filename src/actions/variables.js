@@ -34,7 +34,6 @@ export const addVariable = (idEjercicio, variable = {}) => ({
 });
 
 export const startAddVariable = (idEjercicio, variable = {}) => {
-    console.log(variable);
     return (dispatch, getState) => {
         return database.ref(`variables/${idEjercicio}`).push(variable).then((ref) => {
             dispatch(addVariable(idEjercicio, {

@@ -4,7 +4,7 @@ functions/node_modules/
 node_modules/
 firebase-debug.log
 
-public/dist/bundle.js
-public/dist/bundle.js.map
-public/dist/modules.bundle.js
-public/dist/modules.bundle.js.map
+public/dist/app.bundle.js
+public/dist/app.bundle.js.map
+public/dist/ejercicio.bundle.js
+public/dist/ejercicio.bundle.js.map

@@ -1,4 +1,5 @@
 import React from 'react';
+import { regexVariables } from '../../../actions/funciones'
 
 class DibujaTexto extends React.Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class DibujaTexto extends React.Component {
     }
 
     componentDidMount() {
-        this.contenido.current.innerHTML = this.props.html;
+        const { html, version } = this.props;
+        this.contenido.current.innerHTML = regexVariables(html, version);
     }
 
     render() {

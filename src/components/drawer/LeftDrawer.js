@@ -52,7 +52,7 @@ class LeftDrawer extends React.Component {
     }
 
     render () {
-        const { classes, theme, variables, versiones, ver, eje, version } = this.props;
+        const { classes, theme, variables, versiones, ver, eje, version, enunciados } = this.props;
         const { tabDrawer } = this.state;
         return (
             <Drawer
@@ -81,7 +81,7 @@ class LeftDrawer extends React.Component {
                     onChangeIndex={this.handleChangeIndex}
                 >
                     <Funciones />
-                    <Seleccion />
+                    <Seleccion eje={eje} enunciados={enunciados}/>
                     <Versiones eje={eje} ver={ver} versiones={versiones} variables={variables}/>
                     <Variables version={version}/>
                 </SwipeableViews>

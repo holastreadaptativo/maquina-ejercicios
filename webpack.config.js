@@ -6,10 +6,13 @@ module.exports = (env) => {
   const isProduction = env = 'production';
   return {
     mode: 'development',
-    entry: './src/app.js',
+    entry: {
+      app: './src/app.js',
+      ejercicio: './src/ejercicio.js'
+    },
     output: {
     path: path.resolve(__dirname, 'public', 'dist'),
-      filename: 'bundle.js'
+      filename: '[name].bundle.js'
     },
     module: {
       rules: [{

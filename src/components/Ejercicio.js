@@ -43,6 +43,7 @@ class Ejercicio extends React.Component {
         const { eje, ver } = this.props.match.params;
         const variables = this.props.variables[eje];
         const versiones = this.props.versiones[eje];
+        const enunciados = this.props.enunciados[eje];
         var version;
         if(versiones && ver !== 'vt') {
             version = versiones.find(item => item.id === ver);
@@ -54,7 +55,7 @@ class Ejercicio extends React.Component {
                 version[variable.nombre] = variable.vt;
             }
         }
-        return { eje, ver, variables, version, versiones };
+        return { eje, ver, variables, version, versiones, enunciados };
     }
 
     componentDidMount() {
@@ -192,6 +193,7 @@ const mapStateToProps = (state) => ({
     variables: state.variables,
     versiones: state.versiones,
     appState: state.appState,
+    enunciados: state.enunciados
 });
 
 export default compose(

@@ -9,15 +9,16 @@ import FunctionsIcon from '@material-ui/icons/Functions';
 import SortIcon from '@material-ui/icons/Sort';
 import CodeIcon from '@material-ui/icons/Code';
 
-import SwipeableViews from 'react-swipeable-views';
-
 import withStyles from '@material-ui/core/styles/withStyles';
 import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 
 import Funciones from './tabmenu/Funciones';
 import Variables from './tabmenu/Variables';
 import Versiones from './tabmenu/Versiones';
 import Seleccion from './tabmenu/Seleccion';
+
+import { changeTab } from '../../actions/appstate';
 
 const drawerWidth = 300;
 
@@ -38,33 +39,25 @@ const styles = theme => ({
 class LeftDrawer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tabDrawer: 0
-        }
     }
 
     handleChangeDrawer = (event, value) => {
-        this.setState({ tabDrawer: value });
-    }
-
-    handleChangeIndex = index => {
-        this.setState({ tabDrawer: index });
+        this.props.changeTab(value);
     }
 
     render () {
-        const { classes, theme, variables, versiones, ver, eje, version, enunciados } = this.props;
-        const { tabDrawer } = this.state;
+        const { classes, tabIndex, variables, versiones, ver, eje, version, enunciados } = this.props;
         return (
             <Drawer
                 variant="permanent"
                 classes={{
-                paper: classes.drawerPaper,
+                    paper: classes.drawerPaper,
                 }}
             >
                 <div className={classes.toolbar} />
                 <AppBar position="static" color="default" className={classes.rootTabs}>
                     <Tabs 
-                        value={tabDrawer}
+                        value={tabIndex}
                         onChange={this.handleChangeDrawer}
                         indicatorColor="primary"
                         textColor="primary"
@@ -75,21 +68,24 @@ class LeftDrawer extends React.Component {
                         <Tab icon={<ViewListIcon/>} className={classes.modifier}/>
                     </Tabs>
                 </AppBar>
-                <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse': 'x'}
-                    index={tabDrawer}
-                    onChangeIndex={this.handleChangeIndex}
-                >
-                    <Funciones />
-                    <Seleccion eje={eje} enunciados={enunciados}/>
-                    <Versiones eje={eje} ver={ver} versiones={versiones} variables={variables}/>
-                    <Variables version={version}/>
-                </SwipeableViews>
+            { tabIndex === 0 && <Funciones /> }
+            { tabIndex === 1 && <Seleccion eje={eje} enunciados={enunciados}/> }
+            { tabIndex === 2 && <Versiones eje={eje} ver={ver} versiones={versiones} variables={variables}/> }
+            { tabIndex === 3 && <Variables version={version}/> }        
             </Drawer>
         );
     }
 }
 
+const mapStateToProps = (state) => ({
+    tabIndex: state.appState.drawerIndex
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    changeTab: (drawerIndex) => dispatch(changeTab(drawerIndex))
+});
+
 export default compose(
-  withStyles(styles, { withTheme: true })
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
 )(LeftDrawer);

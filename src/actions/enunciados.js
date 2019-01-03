@@ -1,5 +1,6 @@
 import database from '../database/firebase';
-import { startShowHideMessage } from './appstate';
+import { startShowHideMessage, showHideMessage } from './appstate';
+import { orderBy } from 'lodash';
 
 export const setEnunciados = (enunciados={}) => ({
     type: 'SET_ENUNCIADOS',
@@ -33,7 +34,7 @@ export const addEnunciado = (idEjercicio, enunciado) => ({
     enunciado
 });
 
-export const startAddEnunciado = (idEjercicio,name,params) => {
+export const startAddEnunciado = (idEjercicio, name, params) => {
     return (dispatch, getState) => {
         let enunciado;
         return database.ref(`enunciados/${idEjercicio}`).once('value').then(snapshot => {
@@ -55,5 +56,32 @@ export const startAddEnunciado = (idEjercicio,name,params) => {
             dispatch(startShowHideMessage(error.message))
         });
         
+    };
+};
+
+export const deleteEnunciado = (idEjercicio, idEnunciado, updates) => ({
+    type: 'DELETE_ENUNCIADO',
+    idEjercicio,
+    idEnunciado,
+    updates
+});
+
+export const startDeleteEnunciado = (idEjercicio, idEnunciado) => {
+    return (dispatch, getState) => {
+        let enunciados = getState().enunciados[idEjercicio]
+            .filter(x => x.id !== idEnunciado);
+        enunciados = orderBy(enunciados, ['posicion'], ['asc']);
+        for(var i = 1; i < enunciados.length+1; i++) {
+            enunciados[i-1].posicion = i;
+        }
+        dispatch(deleteEnunciado(idEjercicio, idEnunciado, enunciados));
+        return database.ref(`enunciados/${idEjercicio}/${idEnunciado}`).remove().then(() => {
+            return database.ref(`enunciados/${idEjercicio}`).once('value');
+        }).then(snapshot => {
+
+        }).catch(error => {
+            console.log(error);
+            dispatch(showHideMessage(error.message));
+        });
     };
 };

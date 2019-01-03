@@ -25,7 +25,7 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
     "@material-ui/core": "^3.6.2",
@@ -45,7 +45,6 @@
     "react-draft-wysiwyg": "^1.12.18",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-swipeable-views": "^0.13.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "svg.js": "^2.6.6"

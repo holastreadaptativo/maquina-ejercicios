@@ -83,6 +83,7 @@ export const startUpdateVersion = (idEjercicio, idVersion, variables) => {
             }
         } catch(error) {
             dispatch(startShowHideMessage(error.message));
+            return;
         }
         return database.ref(`versiones/${idEjercicio}/${idVersion}`).update(updates[0]).then(()=>{
             dispatch(updateVersion(idEjercicio, idVersion, updates[0]));

@@ -68,17 +68,22 @@ export const deleteEnunciado = (idEjercicio, idEnunciado, updates) => ({
 
 export const startDeleteEnunciado = (idEjercicio, idEnunciado) => {
     return (dispatch, getState) => {
-        let enunciados = getState().enunciados[idEjercicio]
-            .filter(x => x.id !== idEnunciado);
-        enunciados = orderBy(enunciados, ['posicion'], ['asc']);
-        for(var i = 1; i < enunciados.length+1; i++) {
-            enunciados[i-1].posicion = i;
-        }
-        dispatch(deleteEnunciado(idEjercicio, idEnunciado, enunciados));
+        let enunciados, promises = [];
         return database.ref(`enunciados/${idEjercicio}/${idEnunciado}`).remove().then(() => {
-            return database.ref(`enunciados/${idEjercicio}`).once('value');
-        }).then(snapshot => {
-
+            enunciados = getState().enunciados[idEjercicio]
+                .filter(x => x.id !== idEnunciado);
+            enunciados = orderBy(enunciados, ['posicion'], ['asc']);
+            for(var i = 1; i < enunciados.length+1; i++) {
+                enunciados[i-1].posicion = i;
+                promises.push(
+                    database
+                    .ref(`enunciados/${idEjercicio}/${enunciados[i-1].id}`)
+                    .update({ posicion: enunciados[i-1].posicion })
+                );
+            }
+            return Promise.all(promises);
+        }).then(() => {
+            dispatch(deleteEnunciado(idEjercicio, idEnunciado, enunciados));
         }).catch(error => {
             console.log(error);
             dispatch(showHideMessage(error.message));

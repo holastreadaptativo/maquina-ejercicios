@@ -1,6 +1,8 @@
 .firebase/
 .DS_Store
 functions/node_modules/
+functions/public/dist/ejercicio.bundle.js
+functions/public/dist/ejercicio.bundle.js.map
 node_modules/
 firebase-debug.log
 

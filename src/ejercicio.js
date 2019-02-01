@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import database from './database/firebase'
 
 import Ejercicio from './ejercicio/Ejercicio';
 
@@ -16,25 +15,16 @@ const Error = (props) => (
     </div>
 );
 
-const detalles = JSON.parse(document.body.getAttribute('data-info').replace(/'/g, '"'));
-Promise.all([
-    database.ref(`versiones/${detalles.ejercicio}/${detalles.version}`).once('value'),
-    database.ref(`enunciados/${detalles.ejercicio}`).once('value')
-]).then(([versionSnapshot, enunciadosSnapshot]) => {
-    const fnsEnunciados = [];
-    enunciadosSnapshot.forEach((childSnapshot) => {
-        fnsEnunciados.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val()
-        });
-    });
-    const props = {
-        version: versionSnapshot.val(),
-        fnsEnunciados
+document.addEventListener('DOMContentLoaded', function(){
+    try {
+        const props = window._datos_;
+        const div = document.createElement('div');
+        div.innerText = window._datos_;
+        document.body.appendChild(div);
+        ReactDOM.render(<Ejercicio {...props} />, document.getElementById('ejercicio'));
+    } catch(error) {
+        ReactDOM.render(<Error error={error.message}/>, document.getElementById('ejercicio'));
     }
-    ReactDOM.render(<Ejercicio {...props} />, document.getElementById('ejercicio'));
-}).catch(error => {
-    ReactDOM.render(<Error error={error.message} />, document.getElementById('ejercicio'));
 });
-
+  
 ReactDOM.render(<Loading />, document.getElementById('ejercicio'));

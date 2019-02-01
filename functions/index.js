@@ -25,7 +25,6 @@ function getDetails(idEjercicio, idVersion, data) {
             fnsEnunciados
         }
         let datosJSON = JSON.stringify(datos);
-        console.log(datosJSON);
         data(`<script>window._datos_=${datosJSON};console.log(window._datos_);</script>`);
     }).catch(error => {
         console.log(error);
@@ -33,15 +32,6 @@ function getDetails(idEjercicio, idVersion, data) {
 }
 
 app.use(express.static(publicPath));
-
-app.get('/api/timestamp', (req, res) => {
-    res.send(`${Date.now()}`);
-});
-
-app.get('/api/timestamp-cached', (req, res) => {
-    res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-    res.send(`${Date.now()}`);
-});
 
 app.get('/api/ejercicio/:idejercicio/:idversion', (req, res) => {
     fs.readFile('./public/iframe.html', 'utf8', function (err, data) {

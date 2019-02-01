@@ -7,10 +7,7 @@
       "**/node_modules/**"
     ],
     "rewrites": [{
-      "source": "/api/timestamp",
-      "function": "app"
-    },{
-      "source": "/api/timestamp-cached",
+      "source": "/api/ejercicio/**/**",
       "function": "app"
     }]
   }

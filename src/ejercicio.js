@@ -18,9 +18,6 @@ const Error = (props) => (
 document.addEventListener('DOMContentLoaded', function(){
     try {
         const props = window._datos_;
-        const div = document.createElement('div');
-        div.innerText = window._datos_;
-        document.body.appendChild(div);
         ReactDOM.render(<Ejercicio {...props} />, document.getElementById('ejercicio'));
     } catch(error) {
         ReactDOM.render(<Error error={error.message}/>, document.getElementById('ejercicio'));

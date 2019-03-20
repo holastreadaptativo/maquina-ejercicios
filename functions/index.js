@@ -9,19 +9,36 @@ const app = express();
 const firebaseApp = firebase.initializeApp( functions.config().firebase );
 
 function getDetails(idEjercicio, idVersion, data) {
+    let versionEjercicio = idVersion === 'vt' ? 
+        firebaseApp.database().ref(`variables/${idEjercicio}`).once('value') :
+        firebaseApp.database().ref(`versiones/${idEjercicio}/${idVersion}`).once('value');
     Promise.all([
-        firebaseApp.database().ref(`versiones/${idEjercicio}/${idVersion}`).once('value'),
+        versionEjercicio,
         firebaseApp.database().ref(`enunciados/${idEjercicio}`).once('value')
     ]).then(([versionSnapshot, enunciadosSnapshot]) => {
-        const fnsEnunciados = [];
-        enunciadosSnapshot.forEach((childSnapshot) => {
-            fnsEnunciados.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            });
+        let version, fnsEnunciados = [];
+        enunciadosSnapshot.forEach(childSnapshot => {
+            fnsEnunciados.push(Object.assign({}, { id: childSnapshot.key }, childSnapshot.val()));
         });
+        if(idVersion !== 'vt') {
+            version = versionSnapshot.val();
+        } else {
+            version = {
+                id: 'vt'
+            };
+            versionSnapshot.forEach(childSnapshot => {
+                version[childSnapshot.val().nombre] = childSnapshot.val().vt;
+            });
+            /*for(let variable of versionSnapshot.val()) {
+                version[variable.nombre] = variable.vt;
+            }
+            Object.keys(childSnapshot.val()).map(key => ({
+                id: key,
+                ...childSnapshot.val()[key]
+            }))*/
+        }
         const datos = {
-            version: versionSnapshot.val(),
+            version,
             fnsEnunciados
         }
         let datosJSON = JSON.stringify(datos);

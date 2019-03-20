@@ -108,7 +108,7 @@ class Ejercicio extends React.Component {
                 </Grid>
                 <Grid item xs={12} >
                     <div className={classes.contenedor}>
-                        <iframe className={classes.iframe} ref={this.iframe} src={`http://localhost:5001/maquina-dev/us-central1/app/api/ejercicio/${eje}/${ver}`}></iframe>
+                        <iframe className={classes.iframe} ref={this.iframe} src={`/api/ejercicio/${eje}/${ver}`}></iframe>
                     </div>
                 </Grid>
                 <Modal

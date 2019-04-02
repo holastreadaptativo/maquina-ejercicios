@@ -1,23 +1,19 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = (env) => {
   const isProduction = env = 'production';
-  const CSSExtract = new ExtractTextPlugin('styles.css');
   return {
     mode: process.env.NODE_ENV,
     entry: {
-      app: './src/app.js',
+      maquina: './src/maquina.js',
       ejercicio: './src/ejercicio.js'
     },
-    watch: isProduction ? false : true,
-    watchOptions: {
-      ignored: ['node_modules', 'public', 'functions']
-    },
     output: {
-    path: path.resolve(__dirname, 'public', 'dist'),
+      path: path.resolve(__dirname, 'public', 'dist'),
       filename: '[name].bundle.js'
     },
     module: {
@@ -27,26 +23,26 @@ module.exports = (env) => {
         use: {
           loader: 'babel-loader'
         }
-      },{
+      }, {
         test: /\.s?css$/,
-        use: CSSExtract.extract({
-          use: [{
-            loader: 'css-loader',
-            options: {
-              sourseMap: true
-            }
-          },{
-            loader: 'sass-loader',
-            options: {
-              sourseMap: true
-            }
-          }]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
       }]
     },
     plugins: [
-      CSSExtract
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css"
+      })
     ],
+    optimization: {
+      minimizer: [
+        new OptimizeCSSAssetsPlugin({})
+      ]
+    },
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),

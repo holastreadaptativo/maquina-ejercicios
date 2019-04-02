@@ -15,6 +15,7 @@ import { startSetVersiones } from './actions/versiones';
 import { startSetEnunciados } from './actions/enunciados';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './styles/maquinaStyles.scss';
 
 const store = configureStore();
 const theme = configureTheme();

@@ -1,12 +1,20 @@
+#firebase
 .firebase/
-.DS_Store
-functions/node_modules/
-functions/public/dist/ejercicio.bundle.js
-functions/public/dist/ejercicio.bundle.js.map
-node_modules/
 firebase-debug.log
-
-public/dist/app.bundle.js
-public/dist/app.bundle.js.map
+#mac
+.DS_Store
+#node_modules
+functions/node_modules/
+node_modules/
+#maquina js
+public/dist/maquina.bundle.js
+public/dist/maquina.bundle.js.map
+#maquina css
+public/dist/maquina.css
+public/dist/maquina.css.map
+#ejericio js
 public/dist/ejercicio.bundle.js
 public/dist/ejercicio.bundle.js.map
+#ejercicio css
+public/dist/ejercicio.css
+public/dist/ejercicio.css.map

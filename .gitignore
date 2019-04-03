@@ -18,3 +18,7 @@ public/dist/ejercicio.bundle.js.map
 #ejercicio css
 public/dist/ejercicio.css
 public/dist/ejercicio.css.map
+#fonts
+public/dist/LarkeNeueThin.ttf
+public/dist/OpenSans-Regular-webfont.woff
+public/dist/VarelaRound-Regular-webfont.woff

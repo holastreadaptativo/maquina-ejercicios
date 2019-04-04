@@ -1,11 +1,47 @@
 export const regexVariables = (texto, version) => {
-    var result = texto.toString().replace(/(\$[a-z])/g, function(coincidencia) { //coincidencia ej: => '$a'
-        var valor = Object.keys(version).find(key => key === coincidencia[1]);
+    let result = texto.replace(/(\$[a-z])/g, function(coincidencia) { //coincidencia ej: => '$a'
+        let valor = Object.keys(version).find(key => key === coincidencia[1]);
+        if(!valor) {
+            return coincidencia;
+        }
         return version[valor];
     });
     return result;
 };
 
+export const regexFunctions = (texto) => {
+    let result = texto.replace(/(?=\{).*?(\})/g, function (coincidencia) { //coincidencia ej => '{funcion()}'
+        let funcion = coincidencia.substr(1, coincidencia.length - 2).replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+        try {
+            return eval(funcion);
+        } catch (error) {
+            console.log(error);
+            return coincidencia;
+        }
+    });
+    return result;
+};
+
+export function espacioMiles(texto) {
+    let result = texto.replace(/\d{1,}(\.\d{1,})?/g, function (coincidencia) {
+        if (coincidencia.length >= 4) {
+            let arrayReverse = coincidencia.split("").reverse();
+            for (var i = 0, count = 0, valor = ''; i < arrayReverse.length; i++) {
+                count++;
+                if (count === 3 && arrayReverse[i + 1]) {
+                    valor = ' ' + arrayReverse[i] + valor;
+                    count = 0;
+                } else {
+                    valor = arrayReverse[i] + valor;
+                }
+            }
+            return valor;
+        } else {
+            return coincidencia;
+        }
+    });
+    return result;
+}
 /*
 ejemplo variable
 nombre: "w"
@@ -15,19 +51,19 @@ valor: "1...9"
 vt: "5"
 */
 export const generadorDeVersiones = (variables, numeroVersiones) => {
-    var versiones = [];
-    for(var i = 0, version={}; i < numeroVersiones; i++) {
+    let versiones = [];
+    for(let i = 0, version={}; i < numeroVersiones; i++) {
         variables.forEach(variable => {
-            var restriccion = regexVariables(variable.restriccion, version);
+            let restriccion = regexVariables(variable.restriccion, version);
             switch(variable.tipo){
                 case 'numero':
                     if(variable.valor.match(/\d{1,}\.\.\.\d{1,}/g)) {
-                        var limites = variable.valor.split('...');
+                        let limites = variable.valor.split('...');
                         version[variable.nombre] = Math.floor(Math.random()*(Number(limites[1])-Number(limites[0])+1)+Number(limites[0]));
                     }
                     break;
                 case 'funcion':
-                        var valor = regexVariables(variable.valor, version);
+                        let valor = regexVariables(variable.valor, version);
                         version[variable.nombre] = eval(valor);
                     break;
                 default:

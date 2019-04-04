@@ -14,6 +14,8 @@ class Enunciado extends React.Component {
                     switch(enunciado.name) {
                         case 'Agregar Texto':
                             return <DibujaTexto key={enunciado.id} version={version} {...enunciado.params} />
+                        default:
+                            return <div>FUNCION NO ENCONTRADA</div>
                     }
                 })}
             </div>

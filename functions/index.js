@@ -1,9 +1,7 @@
-const path = require('path');
 const fs = require('fs');
 const functions = require('firebase-functions');
 const firebase = require('firebase-admin');
 const express = require('express');
-const publicPath = path.join(__dirname, 'public');
 const app = express();
 
 const firebaseApp = firebase.initializeApp( functions.config().firebase );
@@ -16,6 +14,7 @@ function getDetails(idEjercicio, idVersion, data) {
         versionEjercicio,
         firebaseApp.database().ref(`enunciados/${idEjercicio}`).once('value')
     ]).then(([versionSnapshot, enunciadosSnapshot]) => {
+        console.log(versionSnapshot, enunciadosSnapshot);
         let version, fnsEnunciados = [];
         enunciadosSnapshot.forEach(childSnapshot => {
             fnsEnunciados.push(Object.assign({}, { id: childSnapshot.key }, childSnapshot.val()));
@@ -29,13 +28,6 @@ function getDetails(idEjercicio, idVersion, data) {
             versionSnapshot.forEach(childSnapshot => {
                 version[childSnapshot.val().nombre] = childSnapshot.val().vt;
             });
-            /*for(let variable of versionSnapshot.val()) {
-                version[variable.nombre] = variable.vt;
-            }
-            Object.keys(childSnapshot.val()).map(key => ({
-                id: key,
-                ...childSnapshot.val()[key]
-            }))*/
         }
         const datos = {
             version,
@@ -47,8 +39,6 @@ function getDetails(idEjercicio, idVersion, data) {
         console.log(error);
     });
 }
-
-app.use(express.static(publicPath));
 
 app.get('/api/ejercicio/:idejercicio/:idversion', (req, res) => {
     fs.readFile('./public/iframe.html', 'utf8', function (err, data) {

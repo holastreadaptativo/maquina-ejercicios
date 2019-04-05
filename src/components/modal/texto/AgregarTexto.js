@@ -54,7 +54,6 @@ class AgregarTexto extends React.Component {
     } 
 
     render() {
-        console.log(this.props);
         const { editorState } = this.state;
         const { classes } = this.props;
         const options = ['inline','blockType','fontSize','fontFamily','list','textAlign',

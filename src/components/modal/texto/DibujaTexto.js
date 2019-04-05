@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { regexVariables, regexFunctions, espacioMiles } from '../../../actions/funciones'
 
 class DibujaTexto extends React.Component {
@@ -19,6 +20,14 @@ class DibujaTexto extends React.Component {
             <div className={cssClases} dangerouslySetInnerHTML={innerHtml}/>
         );
     }
+}
+
+DibujaTexto.propTypes = {
+    col: PropTypes.string.isRequired, //clase de bootstrap para mobile
+    colsm: PropTypes.string.isRequired, //clase de bootstrap para tablet
+    colmd: PropTypes.string.isRequired, //clase de bootstrap para escritorio
+    html: PropTypes.string.isRequired, //string en html con tags de p h1 etc para poner texto
+    version: PropTypes.object.isRequired // version para reemplazar variables
 }
 
 export default DibujaTexto;

@@ -1,0 +1,23 @@
+p {
+  color: $fontcolor;
+  font-family: $opensans-reg;
+  margin: 0;
+}
+
+@include media-breakpoint-between(xs, sm) {
+  p {
+    font-size: $fontsize-mobile;
+  }
+}
+
+@include media-breakpoint-between(sm, md) {
+  p {
+    font-size: $fontsize-tablet;
+  }
+}
+
+@include media-breakpoint-between(md, lg) {
+  p {
+    font-size: $fontsize-desktop;
+  }
+}

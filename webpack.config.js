@@ -8,7 +8,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports = (env) => {
   const isProduction = env = 'production';
   return {
-    //stats: 'verbose',
     mode: process.env.NODE_ENV,
     entry: {
       maquina: './src/maquina.js',
@@ -25,25 +24,15 @@ module.exports = (env) => {
         use: {
           loader: 'babel-loader'
         }
-      }, /*{
-        test: /\.(ttf|woff)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          }
-        }
-      }*/
-      {
+      }, {
         test: /\.(ttf|woff)$/,
         loader: "url-loader?limit=10000&name=[name].[ext]"
       }, {
         test: /\.s?css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader", 
-          "resolve-url-loader", 
+          "css-loader",
+          "resolve-url-loader",
           {
             loader: "sass-loader",
             options: {

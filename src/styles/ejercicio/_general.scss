@@ -4,9 +4,37 @@ p {
   margin: 0;
 }
 
+img {
+  margin: 12px 0;
+}
+
+table img {
+  margin: 0;
+}
+
+table {
+  margin: 12px 0;
+}
+
+footer {
+  align-items: center;
+  background-color: white;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1030;
+}
+
 @include media-breakpoint-between(xs, sm) {
   p {
     font-size: $fontsize-mobile;
+  }
+
+  footer {
+    height: 60px;
   }
 }
 
@@ -19,5 +47,11 @@ p {
 @include media-breakpoint-between(md, lg) {
   p {
     font-size: $fontsize-desktop;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  footer {
+    height: 100px;
   }
 }

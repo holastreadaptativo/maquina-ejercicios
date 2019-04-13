@@ -91,18 +91,18 @@ class Ejercicio extends React.Component {
             <main className={classes.root}>
             <LeftDrawer {...detalles}/>
             <Grid container spacing={8} className={classes.content}>
-                <Grid item xs={12} md={8} xl={4}>
-                    <Paper square>
+                <Grid item xs={12} md={4} xl={3}>
+                    <Paper square className={classes.rootTabs}>
                         <Tabs
                             value={this.state.tabPlataforma}
                             indicatorColor="primary"
                             textColor="primary"
                             onChange={this.handleChangePlatform}
-                            fullWidth
+                            className={classes.rootTabs}
                         >
-                            <Tab icon={<MobileScreenShareIcon/>} />
-                            <Tab icon={<TabletAndroidIcon/>} />
-                            <Tab icon={<DesktopWindowsIcon/>} />
+                            <Tab icon={<MobileScreenShareIcon/>} className={classes.modifier} />
+                            <Tab icon={<TabletAndroidIcon/>} className={classes.modifier} />
+                            <Tab icon={<DesktopWindowsIcon/>} className={classes.modifier} />
                         </Tabs>
                     </Paper>
                 </Grid>
@@ -182,6 +182,12 @@ const styles = theme => ({
     },
     iframe: {
         border: '2px solid black'
+    },
+    rootTabs: {
+        maxWidth: 225
+    },
+    modifier: {
+        minWidth: 75
     }
 });
 

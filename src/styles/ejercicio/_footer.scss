@@ -1,0 +1,64 @@
+#btnConsulta {
+  background-color: #FFF;
+  border: 2px solid #bfbfbf;
+  color: #107dac;
+  font-family: $varelaround-reg;
+  font-size: $fontsize-button;
+  position: relative;
+}
+
+#btnConsulta:hover {
+  border-color: #1caff6;
+  background-color: transparent;
+}
+
+#btnConsulta:disabled {
+  background: #e6e6e6;
+  color:#FFF;
+  cursor: default;
+  border: none;
+}
+
+#btnResponder {
+  background: #1a8dc6;
+  color: #FFF;
+  border: none;
+  font-family: $varelaround-reg;
+  font-size: $fontsize-button;
+  position: relative;
+  float: right!important;
+}
+
+#btnResponder:hover {
+  background-color: #107dac;
+}
+
+#btnResponder:disabled {
+  background-color: #e6e6e6;
+  color: #3c3c3c;
+}
+
+@include media-breakpoint-only(xs) {
+  #btnConsulta {
+    border-radius: 19px;
+    height: 40px;
+  }
+
+  #btnResponder {
+    border-radius: 19px;
+    height: 40px;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  #btnConsulta {
+    border-radius: 26px;
+    height: 53px;
+  }
+  
+  #btnResponder {
+    border-radius: 26px;
+    height: 53px;
+  }
+}
+

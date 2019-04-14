@@ -5,6 +5,7 @@
   font-family: $varelaround-reg;
   font-size: $fontsize-button;
   position: relative;
+  width: 100%;
 }
 
 #btnConsulta:hover {
@@ -27,6 +28,7 @@
   font-size: $fontsize-button;
   position: relative;
   float: right!important;
+  width: 100%;
 }
 
 #btnResponder:hover {
@@ -48,6 +50,22 @@
     border-radius: 19px;
     height: 40px;
   }
+
+  .icon-consulta span {
+    display: block;
+    content: url("../../images/botones_ejercicios/open-book.svg");
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+  }
+
+  .icon-responder span {
+    display: block;
+    content: url("../../images/botones_ejercicios/flecha-der.svg");
+    margin: 0 auto;
+    height: 85%;
+    width: auto;
+  }
 }
 
 @include media-breakpoint-up(sm) {
@@ -59,6 +77,68 @@
   #btnResponder {
     border-radius: 26px;
     height: 53px;
+  }
+
+  .bton-5 {
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+
+  button:not(:disabled).bton-5 span {
+    display: inline-block;
+    -webkit-transition: all 0.8s;
+    -webkit-backface-visibility: hidden;
+    -moz-transition: all 0.8s;
+    -moz-backface-visibility: hidden;
+    transition: all 1s;
+    backface-visibility: hidden;
+  }
+
+  button:not(:disabled).bton-5:before {
+    position: absolute;
+    height: 100%;
+    line-height: 3;
+    font-size: 180%;
+    -moz-transition: all 0.3s;
+    transition: all 1s;
+  }
+
+  button:not(:disabled).bton-5:active:before {
+    color: #703b87;
+  }
+
+    /* Button 5a */
+  button:not(:disabled).bton-5a:hover span {
+    -webkit-transform: translateY(300%);
+    -moz-transform: translateY(300%);
+    -ms-transform: translateY(300%);
+    transform: translateY(200%);
+  }
+
+  button:not(:disabled).bton-5a:before {
+    top: -115%;
+  }
+
+  button:not(:disabled).bton-5a:hover:before {
+    top: -12px;
+  }
+
+  button:not(:disabled).icon-consulta:before {
+    content: url("../../images/botones_ejercicios/open-book.svg");
+    width: 42px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+  }
+
+  button:not(:disabled).icon-responder:before {
+    content: url("../../images/botones_ejercicios/flecha-der.svg");
+    width: 36px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
   }
 }
 

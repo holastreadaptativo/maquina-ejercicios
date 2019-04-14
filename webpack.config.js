@@ -25,7 +25,7 @@ module.exports = (env) => {
           loader: 'babel-loader'
         }
       }, {
-        test: /\.(ttf|woff)$/,
+        test: /\.(svg|ttf|woff)$/,
         loader: "url-loader?limit=10000&name=[name].[ext]"
       }, {
         test: /\.s?css$/,

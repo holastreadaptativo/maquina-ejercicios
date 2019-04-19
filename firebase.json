@@ -7,8 +7,20 @@
       "**/node_modules/**"
     ],
     "rewrites": [{
+      "source": "/home",
+      "destination": "/index.html"
+    },{
+      "source": "/ejercicio/**/**",
+      "destination": "/index.html"
+    },{
+      "source": "/cuentas",
+      "destination": "/index.html"
+    },{
       "source": "/api/ejercicio/**/**",
       "function": "app"
+    },{
+      "source": "**",
+      "destination": "/index.html"
     }]
   }
 }

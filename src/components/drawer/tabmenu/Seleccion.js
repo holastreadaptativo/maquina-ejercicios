@@ -5,7 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { orderBy } from 'lodash';
 
@@ -24,6 +25,10 @@ class Seleccion extends React.Component {
         this.props.startDeleteEnunciado(idEjercicio, idEnunciado);
     }
 
+    handleEditFunction = (tipo, idFuncion) => {
+        console.log(`se desea editar la funcion ${idFuncion} de ${tipo}`);
+    }
+
     render() {
         const { theme, enunciados, eje } = this.props;
         return (
@@ -32,8 +37,11 @@ class Seleccion extends React.Component {
                     <ListSubheader color="primary">Enunciado</ListSubheader>
                     {orderBy(enunciados, ['posicion'], ['asc']).map(enunciado => (
                         <ListItem key={enunciado.id}>
-                            <ListItemText>{enunciado.name}-{enunciado.posicion}</ListItemText>
+                            <ListItemText>{enunciado.posicion}.- {enunciado.name}</ListItemText>
                             <ListItemSecondaryAction>
+                                <IconButton aria-label="Delete" onClick={() => this.handleEditFunction('enunciados', enunciado.id)}>
+                                    <EditIcon />
+                                </IconButton>
                                 <IconButton aria-label="Delete" onClick={() => this.handleDeleteEnunciado(eje, enunciado.id)}>
                                     <DeleteIcon />
                                 </IconButton>
